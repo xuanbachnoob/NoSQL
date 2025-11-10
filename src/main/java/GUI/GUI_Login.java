@@ -4,19 +4,29 @@
  */
 package GUI;
 
+import models.Account;
+import services.AccountService;
+import services.SessionManager;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
+
 /**
  *
  * @author xuanb
  */
 public class GUI_Login extends javax.swing.JFrame {
-    
-    private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUI_Login.class.getName());
+
+    private AccountService accountService;
 
     /**
      * Creates new form GUI_Login
      */
     public GUI_Login() {
+        this.accountService = new AccountService();
         initComponents();
+        setupUI();
     }
 
     /**
@@ -31,28 +41,24 @@ public class GUI_Login extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        txtUsername = new javax.swing.JTextField();
+        btnLogin = new javax.swing.JButton();
+        cboRole = new javax.swing.JComboBox<>();
+        txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("jLabel1");
 
-        jLabel2.setText("jLabel2");
+        jLabel2.setText("Tài khoản");
 
-        jLabel3.setText("jLabel3");
+        jLabel3.setText("Mật khẩu");
 
-        jTextField1.setText("jTextField1");
+        btnLogin.setText("Đăng nhập");
 
-        jTextField2.setText("jTextField2");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
-            }
-        });
+        cboRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        jButton1.setText("jButton1");
+        txtPassword.setText("jPasswordField1");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -69,12 +75,12 @@ public class GUI_Login extends javax.swing.JFrame {
                             .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                            .addComponent(jTextField2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(133, 133, 133)
-                        .addComponent(jButton1)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(cboRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
+                                .addComponent(txtPassword)))))
                 .addContainerGap(138, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -85,25 +91,23 @@ public class GUI_Login extends javax.swing.JFrame {
                 .addGap(43, 43, 43)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(36, 36, 36)
+                    .addComponent(txtUsername, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(48, 48, 48)
-                .addComponent(jButton1)
-                .addContainerGap(74, Short.MAX_VALUE))
+                    .addComponent(txtPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(20, 20, 20)
+                .addComponent(cboRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 30, Short.MAX_VALUE)
+                .addComponent(btnLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {                                         
+private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
         handleLogin();
-    }                                        
+    }
 
     private void setupUI() {
         // Enter key để đăng nhập
@@ -115,49 +119,53 @@ private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
                 }
             }
         });
-        
+
         // Focus vào username khi mở
         txtUsername.requestFocus();
-        
+
         // Tạo PlaceholderText (optional)
         txtUsername.setToolTipText("Nhập tên đăng nhập của bạn");
         txtPassword.setToolTipText("Nhập mật khẩu của bạn");
     }
-    
+
     private void handleLogin() {
         String username = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword());
         String role = cboRole.getSelectedItem().toString();
-        
+
         // Validation
         if (username.isEmpty()) {
             showError("Vui lòng nhập tên đăng nhập!");
             txtUsername.requestFocus();
             return;
         }
-        
+
         if (password.isEmpty()) {
             showError("Vui lòng nhập mật khẩu!");
             txtPassword.requestFocus();
             return;
         }
-        
+
         // Hiển thị loading
         btnLogin.setEnabled(false);
         btnLogin.setText("Đang đăng nhập...");
-        
+
         // Kiểm tra đăng nhập
         SwingWorker<Account, Void> worker = new SwingWorker<Account, Void>() {
             @Override
             protected Account doInBackground() throws Exception {
-                return accountService.login(username, password, role);
+                Account account = accountService.login(username, password);
+                if (account != null && !role.equals(account.getRole())) {
+                    return null;
+                }
+                return account;
             }
-            
+
             @Override
             protected void done() {
                 try {
                     Account account = get();
-                    
+
                     if (account != null) {
                         // Đăng nhập thành công
                         onLoginSuccess(account);
@@ -167,7 +175,7 @@ private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
                         txtPassword.setText("");
                         txtPassword.requestFocus();
                     }
-                    
+
                 } catch (Exception e) {
                     showError("Lỗi khi đăng nhập: " + e.getMessage());
                     e.printStackTrace();
@@ -177,23 +185,23 @@ private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
                 }
             }
         };
-        
+
         worker.execute();
     }
-    
+
     private void onLoginSuccess(Account account) {
         // Lưu session
         SessionManager.getInstance().setCurrentAccount(account);
-        
+
         // Hiển thị thông báo
         JOptionPane.showMessageDialog(this,
-            "Đăng nhập thành công!\n\n" +
-            "Xin chào: " + account.getUsername() + "\n" +
-            "Vai trò: " + account.getRole(),
-            "Thành công",
-            JOptionPane.INFORMATION_MESSAGE
+                "Đăng nhập thành công!\n\n"
+                + "Xin chào: " + account.getUsername() + "\n"
+                + "Vai trò: " + account.getRole(),
+                "Thành công",
+                JOptionPane.INFORMATION_MESSAGE
         );
-        
+
         // Mở Main GUI
         SwingUtilities.invokeLater(() -> {
             GUI_mainAD mainGUI = new GUI_mainAD();
@@ -201,35 +209,23 @@ private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
             this.dispose(); // Đóng LoginGUI
         });
     }
-    
+
     private void showError(String message) {
         JOptionPane.showMessageDialog(this,
-            message,
-            "Lỗi đăng nhập",
-            JOptionPane.ERROR_MESSAGE
+                message,
+                "Lỗi đăng nhập",
+                JOptionPane.ERROR_MESSAGE
         );
     }
 
-    public static void main(String args[]) {
-        // Set Look and Feel
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        
-        // Hiển thị LoginGUI
-        java.awt.EventQueue.invokeLater(() -> {
-            new LoginGUI().setVisible(true);
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton btnLogin;
+    private javax.swing.JComboBox<String> cboRole;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JPasswordField txtPassword;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 }

@@ -2,13 +2,6 @@ package services;
 
 import models.Account;
 
-/**
- * Quản lý Session người dùng đăng nhập
- * Singleton pattern
- * 
- * @author xuanbachnoob
- * @since 2025-11-10
- */
 public class SessionManager {
     
     private static SessionManager instance;
@@ -25,7 +18,6 @@ public class SessionManager {
     
     public void setCurrentAccount(Account account) {
         this.currentAccount = account;
-        System.out.println("✅ Session đã được thiết lập cho: " + account.getUsername());
     }
     
     public Account getCurrentAccount() {

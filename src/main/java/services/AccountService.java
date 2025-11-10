@@ -4,7 +4,7 @@ import database.HyperGraphDBManager;
 import models.Account;
 import org.hypergraphdb.*;
 import org.hypergraphdb.HGQuery.hg;
-
+import org.hypergraphdb.HyperGraph;
 import java.security.MessageDigest;
 import java.util.*;
 
@@ -13,9 +13,10 @@ import java.util.*;
  */
 public class AccountService {
     private HyperGraphDBManager dbManager;
-    
+    private HyperGraph graph;
     public AccountService() {
         this.dbManager = HyperGraphDBManager.getInstance();
+        this.graph = HyperGraphDBManager.getInstance().getGraph();
     }
     
     // ============================================
@@ -59,33 +60,27 @@ public class AccountService {
      * @return Account nếu đăng nhập thành công, null nếu thất bại
      */
     public Account login(String username, String password) {
-        try {
-            Account account = findAccountByUsername(username);
-            
-            if (account == null) {
-                System.out.println("❌ Tài khoản không tồn tại!");
-                return null;
-            }
-            
-            if (!account.isActive()) {
-                System.out.println("❌ Tài khoản đã bị khóa!");
-                return null;
-            }
-            
-            // Kiểm tra mật khẩu
-            if (account.getPassword().equals(password)) {
-                System.out.println("✅ Đăng nhập thành công: " + username);
-                return account;
-            } else {
-                System.out.println("❌ Mật khẩu không đúng!");
-                return null;
-            }
-            
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi đăng nhập: " + e.getMessage());
+    try {
+        Account account = findAccountByUsername(username);
+        
+        if (account == null) {
+            System.err.println("❌ Không tìm thấy username: " + username);
             return null;
         }
+        
+        if (!password.equals(account.getPassword())) {
+            System.err.println("❌ Mật khẩu sai cho username: " + username);
+            return null;
+        }
+        
+        System.out.println("✅ Đăng nhập thành công: " + username + " - Role: " + account.getRole());
+        return account;
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi đăng nhập: " + e.getMessage());
+        return null;
     }
+}
     
     // ============================================
     // ĐỔI MẬT KHẨU
@@ -172,17 +167,18 @@ public class AccountService {
     /**
      * Tìm tài khoản theo loại
      */
-    public List<Account> getAccountsByType(String accountType) {
-        List<Account> allAccounts = getAllAccounts();
-        List<Account> result = new ArrayList<>();
-        
-        for (Account account : allAccounts) {
-            if (account.getAccountType().equalsIgnoreCase(accountType)) {
-                result.add(account);
-            }
+  public List<Account> getAccountsByType(String accountType) {
+    List<Account> allAccounts = getAllAccounts();
+    List<Account> result = new ArrayList<>();
+    
+    for (Account account : allAccounts) {
+        // ✅ ĐÚNG: Đổi role → accountType
+        if (account.getRole().equalsIgnoreCase(accountType)) {
+            result.add(account);
         }
-        return result;
     }
+    return result;
+}
     
     // ============================================
     // CẬP NHẬT TÀI KHOẢN
@@ -213,7 +209,23 @@ public class AccountService {
             return false;
         }
     }
-    
+    public HGHandle addAccount(Account account) {
+    try {
+        Account existing = findAccountByUsername(account.getUsername());
+        if (existing != null) {
+            System.err.println("❌ Username đã tồn tại: " + account.getUsername());
+            return null;
+        }
+        
+        HGHandle handle = graph.add(account);
+        System.out.println("✅ Đã thêm account: " + account.getUsername());
+        return handle;
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi thêm account: " + e.getMessage());
+        return null;
+    }
+}
     // ============================================
     // XÓA TÀI KHOẢN
     // ============================================
@@ -244,17 +256,6 @@ public class AccountService {
         }
     }
     
-    /**
-     * Khóa/Mở khóa tài khoản
-     */
-    public boolean toggleAccountStatus(String username) {
-        Account account = findAccountByUsername(username);
-        if (account != null) {
-            account.setActive(!account.isActive());
-            return updateAccount(username, account);
-        }
-        return false;
-    }
     
     // ============================================
     // THỐNG KÊ

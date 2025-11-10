@@ -414,6 +414,14 @@ public class BookingService {
         }
     }
 
+    public List<Booking> getBookingsByCustomerId(String customerId) {
+        return getBookingsByCustomer(customerId);
+    }
+
+    public List<Booking> getBookingsByTourId(String tourId) {
+        return getBookingsByTour(tourId);
+    }
+
     private String generateBookingId() {
         long count = countBookings();
         return String.format("BK%03d", count + 1);
