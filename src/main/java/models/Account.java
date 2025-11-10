@@ -7,9 +7,10 @@ public class Account implements Serializable {
     
     private static final long serialVersionUID = 1L;
     
+    // ✅ CHỈ CÓ 4 FIELDS
     private String username;
     private String password;
-    private String role;  // Admin, Employee
+    private String role;
     private Date createdAt;
     
     // ✅ CONSTRUCTORS
@@ -24,7 +25,7 @@ public class Account implements Serializable {
         this.createdAt = new Date();
     }
     
-    // ✅ GETTERS & SETTERS
+    // ✅ GETTERS & SETTERS - CHỈ CHO 4 FIELDS
     public String getUsername() {
         return username;
     }
@@ -60,5 +61,19 @@ public class Account implements Serializable {
     @Override
     public String toString() {
         return "Account{username='" + username + "', role='" + role + "'}";
+    }
+    
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        
+        Account account = (Account) o;
+        return username != null ? username.equals(account.username) : account.username == null;
+    }
+    
+    @Override
+    public int hashCode() {
+        return username != null ? username.hashCode() : 0;
     }
 }

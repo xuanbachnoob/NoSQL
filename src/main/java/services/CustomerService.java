@@ -65,19 +65,26 @@ public class CustomerService {
     /**
      * Tìm khách hàng theo ID
      */
-    public Customer findCustomerById(String customerId) {
-        try {
-            return hg.findOne(graph, 
-                hg.and(
-                    hg.type(Customer.class),
-                    hg.eq("customerId", customerId)
-                )
-            );
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi tìm khách hàng: " + e.getMessage());
+public Customer findCustomerById(String customerId) {
+    try {
+        HGHandle handle = hg.findOne(graph, hg.and(
+            hg.type(Customer.class),
+            hg.eq("customerId", customerId)
+        ));
+        
+        if (handle == null) {
             return null;
         }
+        
+        // ✅ PHẢI DÙNG graph.get() ĐỂ LẤY OBJECT
+        return graph.get(handle);
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi tìm khách hàng: " + e.getMessage());
+        e.printStackTrace();
+        return null;
     }
+}
     
     /**
      * Tìm khách hàng theo số điện thoại
@@ -100,13 +107,24 @@ public class CustomerService {
      * Lấy tất cả khách hàng
      */
     public List<Customer> getAllCustomers() {
-        try {
-            return hg.getAll(graph, hg.type(Customer.class));
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi lấy danh sách khách hàng: " + e.getMessage());
-            return new ArrayList<>();
+    try {
+        List<HGHandle> handles = hg.findAll(graph, hg.type(Customer.class));
+        List<Customer> customers = new ArrayList<>();
+        
+        for (HGHandle handle : handles) {
+            Customer customer = graph.get(handle);  // ✅ DÙNG graph.get()
+            if (customer != null) {
+                customers.add(customer);
+            }
         }
+        
+        return customers;
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi lấy danh sách customers: " + e.getMessage());
+        e.printStackTrace();
+        return new ArrayList<>();
     }
+}
     
     /**
      * Cập nhật khách hàng

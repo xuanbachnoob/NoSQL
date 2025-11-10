@@ -150,19 +150,25 @@ public class AccountService {
      * Tìm tài khoản theo username
      */
     public Account findAccountByUsername(String username) {
-        try {
-            List<Account> accounts = dbManager.find(
-                hg.and(
-                    hg.type(Account.class),
-                    hg.eq("username", username)
-                )
-            );
-            return accounts.isEmpty() ? null : accounts.get(0);
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi tìm tài khoản: " + e.getMessage());
+    try {
+        HGHandle handle = hg.findOne(graph, hg.and(
+            hg.type(Account.class),
+            hg.eq("username", username)
+        ));
+        
+        if (handle == null) {
             return null;
         }
+        
+        // ✅ PHẢI DÙNG graph.get() ĐỂ LẤY OBJECT
+        return graph.get(handle);
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi tìm tài khoản: " + e.getMessage());
+        e.printStackTrace();
+        return null;
     }
+}
     
     /**
      * Tìm tài khoản theo loại

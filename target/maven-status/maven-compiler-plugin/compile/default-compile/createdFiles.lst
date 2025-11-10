@@ -1,3 +1,4 @@
+GUI\JPanel_Dattourkh$3.class
 com\mycompany\qltourdl\QLTourDL.class
 GUI\JPanel_qltour$4.class
 models\BookingDetail.class
@@ -8,6 +9,7 @@ models\Ticket.class
 services\HotelService.class
 services\TicketService.class
 models\Vehicle.class
+GUI\GUI_mainAD$7.class
 GUI\JPanel_qlnv$1.class
 services\SessionManager.class
 GUI\JPanel_qltour$1.class
@@ -18,6 +20,7 @@ services\VehicleService.class
 GUI\JPanel_qlks$4.class
 GUI\GUI_mainAD$3.class
 services\StatisticsService.class
+GUI\JPanel_Dattourkh$4.class
 GUI\GUI_Login.class
 GUI\JPanel_qltour$5.class
 database\HyperGraphDBManager.class
@@ -36,12 +39,15 @@ GUI\JPanel_qltour.class
 GUI\JPanel_qlks$5.class
 GUI\JPanel_qlve.class
 GUI\GUI_mainkh.class
+GUI\GUI_Login$3.class
 services\EmployeeService.class
 GUI\JPanel_qltour$2.class
+GUI\JPanel_Dattourkh$1.class
 models\Booking.class
 GUI\GUI_mainAD$2.class
 GUI\JPanel_qlxe.class
 GUI\JPanel_qltour$6.class
+GUI\JPanel_Dattourkh$5.class
 GUI\JPanel_thongke.class
 GUI\JPanel_qlxe$2.class
 services\RelationshipService.class
@@ -51,6 +57,7 @@ GUI\JPanel_qlnv$7.class
 GUI\JPanel_qlks.class
 GUI\JPanel_qlks$1.class
 GUI\GUI_mainAD$5.class
+GUI\JPanel_Dattourkh$2.class
 GUI\JPanel_qlnv$4.class
 GUI\JPanel_qlxe$1.class
 GUI\JPanel_qlnv$2.class
@@ -58,6 +65,7 @@ GUI\JPanel_Dattourkh.class
 GUI\JPanel_qlnv.class
 GUI\GUI_mainkh$2.class
 GUI\GUI_Login$2.class
+GUI\JPanel_Dattourkh$6.class
 GUI\JPanel_qlks$2.class
 models\Hotel.class
 GUI\GUI_mainAD$1.class

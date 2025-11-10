@@ -55,10 +55,13 @@ public class GUI_Login extends javax.swing.JFrame {
         jLabel3.setText("Mật khẩu");
 
         btnLogin.setText("Đăng nhập");
+        btnLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLoginActionPerformed(evt);
+            }
+        });
 
-        cboRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        txtPassword.setText("jPasswordField1");
+        cboRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Employee", "Admin" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -105,9 +108,11 @@ public class GUI_Login extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
+
+    private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLoginActionPerformed
+        // TODO add your handling code here:
         handleLogin();
-    }
+    }//GEN-LAST:event_btnLoginActionPerformed
 
     private void setupUI() {
         // Enter key để đăng nhập
@@ -190,25 +195,35 @@ private void btnLoginActionPerformed(java.awt.event.ActionEvent evt) {
     }
 
     private void onLoginSuccess(Account account) {
-        // Lưu session
-        SessionManager.getInstance().setCurrentAccount(account);
+    // Lưu session
+    SessionManager.getInstance().setCurrentAccount(account);
 
-        // Hiển thị thông báo
-        JOptionPane.showMessageDialog(this,
-                "Đăng nhập thành công!\n\n"
-                + "Xin chào: " + account.getUsername() + "\n"
-                + "Vai trò: " + account.getRole(),
-                "Thành công",
-                JOptionPane.INFORMATION_MESSAGE
-        );
+    // Hiển thị thông báo
+    JOptionPane.showMessageDialog(this,
+            "Đăng nhập thành công!\n\n"
+            + "Xin chào: " + account.getUsername() + "\n"
+            + "Vai trò: " + account.getRole(),
+            "Thành công",
+            JOptionPane.INFORMATION_MESSAGE
+    );
 
-        // Mở Main GUI
+    // ✅ ĐÚNG: DÙNG .equals() hoặc .equalsIgnoreCase()
+    if ("Admin".equals(account.getRole())) {
+        // Mở GUI Admin
         SwingUtilities.invokeLater(() -> {
-            GUI_mainAD mainGUI = new GUI_mainAD();
+            GUI_mainAD mainAD = new GUI_mainAD();
+            mainAD.setVisible(true);
+            this.dispose();
+        });
+    } else {
+        // Mở GUI Employee/Khách hàng
+        SwingUtilities.invokeLater(() -> {
+            GUI_mainkh mainGUI = new GUI_mainkh();
             mainGUI.setVisible(true);
-            this.dispose(); // Đóng LoginGUI
+            this.dispose();
         });
     }
+}
 
     private void showError(String message) {
         JOptionPane.showMessageDialog(this,

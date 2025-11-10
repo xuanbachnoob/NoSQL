@@ -2,7 +2,7 @@ package database;
 
 import models.*;
 import services.*;
-
+import org.hypergraphdb.HGHandle;
 import java.util.*;
 
 /**
@@ -415,74 +415,144 @@ private void seedAccounts() {
      * Seed Bookings
      */
     private void seedBookings() {
-        System.out.println("📌 Đang seed Bookings...");
+    System.out.println("📌 Đang seed Bookings...");
+    
+    int successCount = 0;
+    int failCount = 0;
 
-        // Booking 1: CUS001 đặt tour Phú Quốc
+    try {
+        // ============ Booking 1: CUS001 đặt tour Phú Quốc ============
+        System.out.println("\n🔍 Tạo Booking 1...");
         Customer c1 = customerService.findCustomerById("CUS001");
         Tour t1 = tourService.findTourById("TR001");
+        
+        if (c1 == null) {
+            System.err.println("❌ Không tìm thấy Customer CUS001");
+            failCount++;
+        } else if (t1 == null) {
+            System.err.println("❌ Không tìm thấy Tour TR001");
+            failCount++;
+        } else {
+            List<BookingDetail> details1 = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            cal.set(1990, Calendar.MAY, 15);
 
-        List<BookingDetail> details1 = new ArrayList<>();
-        Calendar cal = Calendar.getInstance();
-        cal.set(1990, Calendar.MAY, 15);
+            BookingDetail bd1 = new BookingDetail();
+            bd1.setPassengerName("Nguyễn Văn An");
+            bd1.setPassengerType("ADULT");
+            bd1.setDateOfBirth(cal.getTime());
+            bd1.setGender("MALE");
+            bd1.setIdCard("079090123456");
+            details1.add(bd1);
 
-        BookingDetail bd1 = new BookingDetail();
-        bd1.setPassengerName("Nguyễn Văn An");
-        bd1.setPassengerType("ADULT");
-        bd1.setDateOfBirth(cal.getTime());
-        bd1.setGender("MALE");
-        bd1.setIdCard("079090123456");
-        details1.add(bd1);
+            cal.set(1992, Calendar.AUGUST, 20);
+            BookingDetail bd2 = new BookingDetail();
+            bd2.setPassengerName("Trần Thị Bình");
+            bd2.setPassengerType("ADULT");
+            bd2.setDateOfBirth(cal.getTime());
+            bd2.setGender("FEMALE");
+            bd2.setIdCard("079092987654");
+            details1.add(bd2);
 
-        cal.set(1992, Calendar.AUGUST, 20);
-        BookingDetail bd2 = new BookingDetail();
-        bd2.setPassengerName("Trần Thị Bình");
-        bd2.setPassengerType("ADULT");
-        bd2.setDateOfBirth(cal.getTime());
-        bd2.setGender("FEMALE");
-        bd2.setIdCard("079092987654");
-        details1.add(bd2);
+            HGHandle handle1 = bookingService.createBooking(c1, t1, 2, 0, details1, "Yêu cầu phòng tầng cao");
+            
+            if (handle1 != null) {
+                System.out.println("✅ Booking 1 created successfully");
+                successCount++;
+            } else {
+                System.err.println("❌ Booking 1 failed");
+                failCount++;
+            }
+        }
 
-        bookingService.createBooking(c1, t1, 2, 0, details1, "Yêu cầu phòng tầng cao");
-
-        // Booking 2: CUS002 đặt tour Đà Lạt
+        // ============ Booking 2: CUS002 đặt tour Đà Lạt ============
+        System.out.println("\n🔍 Tạo Booking 2...");
         Customer c2 = customerService.findCustomerById("CUS002");
         Tour t2 = tourService.findTourById("TR002");
+        
+        if (c2 == null) {
+            System.err.println("❌ Không tìm thấy Customer CUS002");
+            failCount++;
+        } else if (t2 == null) {
+            System.err.println("❌ Không tìm thấy Tour TR002");
+            failCount++;
+        } else {
+            List<BookingDetail> details2 = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            
+            cal.set(1992, Calendar.AUGUST, 20);
+            BookingDetail bd3 = new BookingDetail();
+            bd3.setPassengerName("Trần Thị Bình");
+            bd3.setPassengerType("ADULT");
+            bd3.setDateOfBirth(cal.getTime());
+            bd3.setGender("FEMALE");
+            details2.add(bd3);
 
-        List<BookingDetail> details2 = new ArrayList<>();
-        cal.set(1992, Calendar.AUGUST, 20);
-        BookingDetail bd3 = new BookingDetail();
-        bd3.setPassengerName("Trần Thị Bình");
-        bd3.setPassengerType("ADULT");
-        bd3.setDateOfBirth(cal.getTime());
-        bd3.setGender("FEMALE");
-        details2.add(bd3);
+            cal.set(2018, Calendar.MARCH, 10);
+            BookingDetail bd4 = new BookingDetail();
+            bd4.setPassengerName("Trần Văn Nhỏ");
+            bd4.setPassengerType("CHILD");
+            bd4.setDateOfBirth(cal.getTime());
+            bd4.setGender("MALE");
+            details2.add(bd4);
 
-        cal.set(2018, Calendar.MARCH, 10);
-        BookingDetail bd4 = new BookingDetail();
-        bd4.setPassengerName("Trần Văn Nhỏ");
-        bd4.setPassengerType("CHILD");
-        bd4.setDateOfBirth(cal.getTime());
-        bd4.setGender("MALE");
-        details2.add(bd4);
+            HGHandle handle2 = bookingService.createBooking(c2, t2, 1, 1, details2, "");
+            
+            if (handle2 != null) {
+                System.out.println("✅ Booking 2 created successfully");
+                successCount++;
+            } else {
+                System.err.println("❌ Booking 2 failed");
+                failCount++;
+            }
+        }
 
-        bookingService.createBooking(c2, t2, 1, 1, details2, "");
-
-        // Booking 3: CUS003 đặt tour Nha Trang
+        // ============ Booking 3: CUS003 đặt tour Nha Trang ============
+        System.out.println("\n🔍 Tạo Booking 3...");
         Customer c3 = customerService.findCustomerById("CUS003");
         Tour t3 = tourService.findTourById("TR003");
+        
+        if (c3 == null) {
+            System.err.println("❌ Không tìm thấy Customer CUS003");
+            failCount++;
+        } else if (t3 == null) {
+            System.err.println("❌ Không tìm thấy Tour TR003");
+            failCount++;
+        } else {
+            List<BookingDetail> details3 = new ArrayList<>();
+            Calendar cal = Calendar.getInstance();
+            
+            cal.set(1988, Calendar.MARCH, 10);
+            BookingDetail bd5 = new BookingDetail();
+            bd5.setPassengerName("Lê Văn Cường");
+            bd5.setPassengerType("ADULT");
+            bd5.setDateOfBirth(cal.getTime());
+            bd5.setGender("MALE");
+            bd5.setIdCard("079088111222");
+            details3.add(bd5);
 
-        List<BookingDetail> details3 = new ArrayList<>();
-        cal.set(1988, Calendar.MARCH, 10);
-        BookingDetail bd5 = new BookingDetail();
-        bd5.setPassengerName("Lê Văn Cường");
-        bd5.setPassengerType("ADULT");
-        bd5.setDateOfBirth(cal.getTime());
-        bd5.setGender("MALE");
-        bd5.setIdCard("079088111222");
-        details3.add(bd5);
-
-        bookingService.createBooking(c3, t3, 1, 0, details3, "Không ăn hải sản");
-
-        System.out.println("✅ Đã seed 3 bookings với graph relationships\n");
+            HGHandle handle3 = bookingService.createBooking(c3, t3, 1, 0, details3, "Không ăn hải sản");
+            
+            if (handle3 != null) {
+                System.out.println("✅ Booking 3 created successfully");
+                successCount++;
+            } else {
+                System.err.println("❌ Booking 3 failed");
+                failCount++;
+            }
+        }
+        
+        // ✅ KẾT QUẢ
+        System.out.println("\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━");
+        System.out.println("✅ Bookings thành công: " + successCount);
+        if (failCount > 0) {
+            System.err.println("❌ Bookings thất bại: " + failCount);
+        }
+        System.out.println("━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n");
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi nghiêm trọng khi seed bookings: " + e.getMessage());
+        e.printStackTrace();
     }
+}
 }

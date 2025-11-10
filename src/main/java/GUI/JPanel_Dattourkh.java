@@ -10,22 +10,26 @@ import models.Customer;
 import services.BookingService;
 import services.TourService;
 import services.CustomerService;
-
+import services.SessionManager;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
+
 /**
  *
  * @author xuanb
  */
 public class JPanel_Dattourkh extends javax.swing.JPanel {
+
     private BookingService bookingService;
     private TourService tourService;
     private CustomerService customerService;
     private SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    
+    private boolean isCustomerMode = false;
+    private Customer currentCustomer;
+
     /**
      * Creates new form JPanel_Dattourkh
      */
@@ -33,7 +37,6 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         this.bookingService = new BookingService();
         this.tourService = new TourService();
         this.customerService = new CustomerService();
-        
         initComponents();
         khoiTaoDuLieu();
     }
@@ -51,11 +54,10 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         txtTimKiem = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblDanhSachBooking = new javax.swing.JTable();
-        btnTimkiem = new javax.swing.JButton();
+        btnTimKiem = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
@@ -67,6 +69,9 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         txtSoTreEm = new javax.swing.JTextField();
         txtTongTien = new javax.swing.JTextField();
         cboTrangThai = new javax.swing.JComboBox<>();
+        btnThem = new javax.swing.JButton();
+        btnSua = new javax.swing.JButton();
+        btnXoa = new javax.swing.JButton();
 
         jLabel2.setText("Tìm kiếm: ");
 
@@ -83,15 +88,18 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         ));
         jScrollPane1.setViewportView(tblDanhSachBooking);
 
-        btnTimkiem.setText("Tìm kiêm");
+        btnTimKiem.setText("Tìm kiêm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTimKiemActionPerformed(evt);
+            }
+        });
 
         jLabel4.setText("Mã Đặt Tour");
 
         jLabel5.setText("Khách hàng");
 
         jLabel6.setText("Tour");
-
-        jLabel7.setText("jLabel7");
 
         jLabel8.setText("Trạng thái");
 
@@ -105,7 +113,40 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
 
         cboTour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
+        txtSoNguoiLon.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSoNguoiLonActionPerformed(evt);
+            }
+        });
+
+        txtSoTreEm.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtSoTreEmActionPerformed(evt);
+            }
+        });
+
         cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        btnThem.setText("Đặt tour");
+        btnThem.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnThemActionPerformed(evt);
+            }
+        });
+
+        btnSua.setText("Sửa tour");
+        btnSua.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSuaActionPerformed(evt);
+            }
+        });
+
+        btnXoa.setText("Xóa tour");
+        btnXoa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnXoaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -122,40 +163,40 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnTimkiem))
+                        .addComponent(btnTimKiem))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
-                            .addComponent(jLabel6)
-                            .addComponent(jLabel7))
+                            .addComponent(jLabel6))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(238, 238, 238)
                                 .addComponent(jLabel8))
                             .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cboTour, 0, 93, Short.MAX_VALUE)
+                                    .addComponent(cboKhachHang, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(txtMaBooking, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cboTour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel11))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(cboKhachHang, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel10))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(txtMaBooking, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addComponent(jLabel9)))))
+                                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))))
                         .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(txtSoNguoiLon)
+                            .addComponent(txtSoTreEm)
+                            .addComponent(txtTongTien)
+                            .addComponent(cboTrangThai, 0, 99, Short.MAX_VALUE))
+                        .addGap(38, 38, 38)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtSoTreEm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(99, Short.MAX_VALUE))
+                            .addComponent(btnThem)
+                            .addComponent(btnSua)
+                            .addComponent(btnXoa))))
+                .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -173,94 +214,154 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
-                            .addComponent(cboTour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel7))
+                            .addComponent(cboTour, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel9)
-                            .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel10)
-                            .addComponent(txtSoTreEm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel11)
-                            .addComponent(txtTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnThem))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel10)
+                                    .addComponent(txtSoTreEm, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(28, 28, 28)
+                                .addComponent(btnSua)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel11)
+                                    .addComponent(txtTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(29, 29, 29)
+                                .addComponent(btnXoa)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel8)
                             .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 108, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimkiem))
+                    .addComponent(btnTimKiem))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {                                       
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        // TODO add your handling code here:
         themBooking();
-    }                                      
+    }//GEN-LAST:event_btnThemActionPerformed
 
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        // TODO add your handling code here:
         suaBooking();
-    }                                         
+    }//GEN-LAST:event_btnSuaActionPerformed
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+        // TODO add your handling code here:
         xoaBooking();
-    }                                         
+    }//GEN-LAST:event_btnXoaActionPerformed
 
-    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        lamMoiForm();
-    }                                          
-
-    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {                                          
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        // TODO add your handling code here:
         timKiemBooking();
-    }                                         
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
-    private void btnHienTatCaActionPerformed(java.awt.event.ActionEvent evt) {                                           
-        taiDuLieu();
-    }                                          
-
-    private void btnTinhTienActionPerformed(java.awt.event.ActionEvent evt) {                                           
+    private void txtSoNguoiLonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoNguoiLonActionPerformed
+        // TODO add your handling code here:
         tinhTien();
-    }                                          
+    }//GEN-LAST:event_txtSoNguoiLonActionPerformed
+
+    private void txtSoTreEmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoTreEmActionPerformed
+        tinhTien();        // TODO add your handling code here:
+    }//GEN-LAST:event_txtSoTreEmActionPerformed
+
+    private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {
+        lamMoiForm();
+    }
+
+    private void btnTinhTienActionPerformed(java.awt.event.ActionEvent evt) {
+        tinhTien();
+    }
 
     private void khoiTaoDuLieu() {
+        // ✅ KIỂM TRA ROLE
+        String role = SessionManager.getInstance().getCurrentRole();
+        String username = SessionManager.getInstance().getCurrentUsername();
+
+        // Nếu không phải Admin, là Customer mode
+        isCustomerMode = !"Admin".equalsIgnoreCase(role);
+
+        if (isCustomerMode) {
+            setupCustomerMode(username);
+        }
+
         taiDanhSachKhachHang();
         taiDanhSachTour();
         taiDuLieu();
-        
+
         tblDanhSachBooking.getSelectionModel().addListSelectionListener(e -> {
             if (!e.getValueIsAdjusting()) {
                 dienFormTuBang();
             }
         });
     }
-    
+
+    private void setupCustomerMode(String username) {
+        // Lấy thông tin customer hiện tại
+        currentCustomer = customerService.findCustomerByPhone(username);
+
+        if (currentCustomer == null) {
+            // Tạo customer mới nếu chưa có
+            currentCustomer = new Customer();
+            currentCustomer.setCustomerId("CUS" + System.currentTimeMillis());
+            currentCustomer.setFullName(username);
+            currentCustomer.setPhone(username);
+            customerService.addCustomer(currentCustomer);
+        }
+
+        // ✅ TỰ ĐỘNG CHỌN VÀ KHÓA COMBOBOX KHÁCH HÀNG
+        cboKhachHang.setEnabled(false);
+        txtMaBooking.setEnabled(false); // Không cho nhập mã thủ công
+
+        // ✅ ẨN CÁC BUTTON KHÔNG CẦN THIẾT
+        // Nếu có button Sửa, Xóa trong form
+        // btnSua.setVisible(false);
+        // btnXoa.setVisible(false);
+    }
+
     private void taiDanhSachKhachHang() {
         cboKhachHang.removeAllItems();
-        cboKhachHang.addItem("-- Chọn khách hàng --");
-        
-        try {
-            List<Customer> danhSachKH = customerService.getAllCustomers();
-            for (Customer kh : danhSachKH) {
-                cboKhachHang.addItem(kh.getCustomerId() + " - " + kh.getFullName());
+
+        if (isCustomerMode && currentCustomer != null) {
+            // ✅ CHỈ HIỂN THỊ KHÁCH HÀNG HIỆN TẠI
+            cboKhachHang.addItem(currentCustomer.getCustomerId() + " - " + currentCustomer.getFullName());
+            cboKhachHang.setSelectedIndex(0);
+        } else {
+            // ✅ ADMIN: HIỂN THỊ TẤT CẢ
+            cboKhachHang.addItem("-- Chọn khách hàng --");
+
+            try {
+                List<Customer> danhSachKH = customerService.getAllCustomers();
+                for (Customer kh : danhSachKH) {
+                    cboKhachHang.addItem(kh.getCustomerId() + " - " + kh.getFullName());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
         }
     }
-    
+
     private void taiDanhSachTour() {
         cboTour.removeAllItems();
         cboTour.addItem("-- Chọn tour --");
-        
+
         try {
             List<Tour> danhSachTour = tourService.getAllTours();
             for (Tour tour : danhSachTour) {
@@ -270,33 +371,45 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
             e.printStackTrace();
         }
     }
-    
+
     private void taiDuLieu() {
         DefaultTableModel model = (DefaultTableModel) tblDanhSachBooking.getModel();
         model.setRowCount(0);
-        
+
         try {
-            List<Booking> danhSachBooking = bookingService.getAllBookings();
-            
+            List<Booking> danhSachBooking;
+
+            if (isCustomerMode && currentCustomer != null) {
+                // ✅ CHỈ HIỂN THỊ BOOKING CỦA KHÁCH HÀNG HIỆN TẠI
+                danhSachBooking = bookingService.getBookingsByCustomer(currentCustomer.getCustomerId());
+            } else {
+                // ✅ ADMIN: HIỂN THỊ TẤT CẢ
+                danhSachBooking = bookingService.getAllBookings();
+            }
+
             for (Booking booking : danhSachBooking) {
                 // Lấy tên khách hàng
                 String tenKH = "";
                 try {
                     Customer kh = customerService.findCustomerById(booking.getCustomerId());
-                    if (kh != null) tenKH = kh.getFullName();
+                    if (kh != null) {
+                        tenKH = kh.getFullName();
+                    }
                 } catch (Exception e) {
                     tenKH = booking.getCustomerId();
                 }
-                
+
                 // Lấy tên tour
                 String tenTour = "";
                 try {
                     Tour tour = tourService.findTourById(booking.getTourId());
-                    if (tour != null) tenTour = tour.getTourName();
+                    if (tour != null) {
+                        tenTour = tour.getTourName();
+                    }
                 } catch (Exception e) {
                     tenTour = booking.getTourId();
                 }
-                
+
                 model.addRow(new Object[]{
                     booking.getBookingId(),
                     tenKH,
@@ -308,106 +421,146 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                     booking.getStatus()
                 });
             }
-            
+
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi khi tải dữ liệu: " + e.getMessage());
         }
     }
-    
+
     private void themBooking() {
-        if (!kiemTraForm()) return;
-        
+        if (!kiemTraForm()) {
+            return;
+        }
+
         try {
             Booking booking = new Booking();
-            booking.setBookingId(txtMaBooking.getText().trim());
-            
+
+            // ✅ TỰ ĐỘNG TẠO MÃ BOOKING
+            String maBooking = txtMaBooking.getText().trim();
+            if (maBooking.isEmpty() || isCustomerMode) {
+                maBooking = "BK" + System.currentTimeMillis();
+            }
+            booking.setBookingId(maBooking);
+
             // Lấy mã khách hàng
             String luaChonKH = cboKhachHang.getSelectedItem().toString();
             String maKH = luaChonKH.split(" - ")[0];
             booking.setCustomerId(maKH);
-            
+
             // Lấy mã tour
             String luaChonTour = cboTour.getSelectedItem().toString();
             String maTour = luaChonTour.split(" - ")[0];
             booking.setTourId(maTour);
-            
+
             booking.setAdultCount(Integer.parseInt(txtSoNguoiLon.getText().trim()));
             booking.setChildCount(Integer.parseInt(txtSoTreEm.getText().trim()));
             booking.setTotalAmount(Double.parseDouble(txtTongTien.getText().trim().replace(",", "")));
-            booking.setStatus(cboTrangThai.getSelectedItem().toString());
+
+            // ✅ TỰ ĐỘNG SET TRẠNG THÁI
+            if (isCustomerMode) {
+                booking.setStatus("PENDING"); // Chờ xác nhận
+            } else {
+                booking.setStatus(cboTrangThai.getSelectedItem().toString());
+            }
+
             booking.setBookingDate(new Date());
             booking.setCreatedAt(new Date());
-            
+
             if (bookingService.addBooking(booking) != null) {
-                JOptionPane.showMessageDialog(this, "Thêm booking thành công!");
+                JOptionPane.showMessageDialog(this, "Đặt tour thành công!");
                 lamMoiForm();
                 taiDuLieu();
             } else {
                 JOptionPane.showMessageDialog(this, "Mã booking đã tồn tại!", "Lỗi", JOptionPane.ERROR_MESSAGE);
             }
-            
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Số người và tổng tiền phải là số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void suaBooking() {
+        // ✅ KHÁCH HÀNG KHÔNG ĐƯỢC SỬA
+        if (isCustomerMode) {
+            JOptionPane.showMessageDialog(this,
+                    "Khách hàng không thể sửa booking!\nVui lòng liên hệ nhân viên.",
+                    "Thông báo",
+                    JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         if (txtMaBooking.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn booking cần sửa!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        if (!kiemTraForm()) return;
-        
+        if (!kiemTraForm()) {
+            return;
+        }
+
         try {
             Booking booking = bookingService.findBookingById(txtMaBooking.getText().trim());
             if (booking == null) {
                 JOptionPane.showMessageDialog(this, "Không tìm thấy booking!", "Lỗi", JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            
+
             String luaChonKH = cboKhachHang.getSelectedItem().toString();
             String maKH = luaChonKH.split(" - ")[0];
             booking.setCustomerId(maKH);
-            
+
             String luaChonTour = cboTour.getSelectedItem().toString();
             String maTour = luaChonTour.split(" - ")[0];
             booking.setTourId(maTour);
-            
+
             booking.setAdultCount(Integer.parseInt(txtSoNguoiLon.getText().trim()));
             booking.setChildCount(Integer.parseInt(txtSoTreEm.getText().trim()));
             booking.setTotalAmount(Double.parseDouble(txtTongTien.getText().trim().replace(",", "")));
             booking.setStatus(cboTrangThai.getSelectedItem().toString());
-            
+
             if (bookingService.updateBooking(booking.getBookingId(), booking)) {
                 JOptionPane.showMessageDialog(this, "Cập nhật thành công!");
                 lamMoiForm();
                 taiDuLieu();
             }
-            
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Số người và tổng tiền phải là số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
         }
     }
-    
+
     private void xoaBooking() {
         if (txtMaBooking.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn booking cần xóa!", "Cảnh báo", JOptionPane.WARNING_MESSAGE);
             return;
         }
-        
-        int xacNhan = JOptionPane.showConfirmDialog(this, 
-            "Bạn có chắc muốn xóa booking này?", 
-            "Xác nhận", 
-            JOptionPane.YES_NO_OPTION);
-            
+
+        // ✅ KIỂM TRA QUYỀN
+        if (isCustomerMode) {
+            // Khách hàng chỉ được hủy booking PENDING
+            Booking booking = bookingService.findBookingById(txtMaBooking.getText().trim());
+            if (booking != null && !"PENDING".equals(booking.getStatus())) {
+                JOptionPane.showMessageDialog(this,
+                        "Chỉ có thể hủy booking đang chờ xác nhận!",
+                        "Thông báo",
+                        JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+        }
+
+        int xacNhan = JOptionPane.showConfirmDialog(this,
+                isCustomerMode ? "Bạn có chắc muốn hủy booking này?" : "Bạn có chắc muốn xóa booking này?",
+                "Xác nhận",
+                JOptionPane.YES_NO_OPTION);
+
         if (xacNhan == JOptionPane.YES_OPTION) {
             try {
                 if (bookingService.deleteBooking(txtMaBooking.getText().trim())) {
-                    JOptionPane.showMessageDialog(this, "Xóa thành công!");
+                    JOptionPane.showMessageDialog(this,
+                            isCustomerMode ? "Hủy booking thành công!" : "Xóa thành công!");
                     lamMoiForm();
                     taiDuLieu();
                 }
@@ -416,138 +569,14 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
             }
         }
     }
-    
-    private void timKiemBooking() {
-        String tuKhoa = txtTimKiem.getText().trim();
-        if (tuKhoa.isEmpty()) {
-            taiDuLieu();
-            return;
-        }
-        
-        DefaultTableModel model = (DefaultTableModel) tblDanhSachBooking.getModel();
-        model.setRowCount(0);
-        
-        try {
-            List<Booking> danhSachBooking = bookingService.searchBookings(tuKhoa);
-            for (Booking booking : danhSachBooking) {
-                String tenKH = "";
-                try {
-                    Customer kh = customerService.findCustomerById(booking.getCustomerId());
-                    if (kh != null) tenKH = kh.getFullName();
-                } catch (Exception e) {
-                    tenKH = booking.getCustomerId();
-                }
-                
-                String tenTour = "";
-                try {
-                    Tour tour = tourService.findTourById(booking.getTourId());
-                    if (tour != null) tenTour = tour.getTourName();
-                } catch (Exception e) {
-                    tenTour = booking.getTourId();
-                }
-                
-                model.addRow(new Object[]{
-                    booking.getBookingId(),
-                    tenKH,
-                    tenTour,
-                    booking.getAdultCount(),
-                    booking.getChildCount(),
-                    String.format("%,.0f", booking.getTotalAmount()),
-                    booking.getBookingDate() != null ? dateFormat.format(booking.getBookingDate()) : "",
-                    booking.getStatus()
-                });
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi tìm kiếm: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private void tinhTien() {
-        if (cboTour.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn tour!");
-            return;
-        }
-        
-        try {
-            String luaChonTour = cboTour.getSelectedItem().toString();
-            String maTour = luaChonTour.split(" - ")[0];
-            
-            Tour tour = tourService.findTourById(maTour);
-            if (tour == null) {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy tour!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-            
-            int soNguoiLon = Integer.parseInt(txtSoNguoiLon.getText().trim());
-            int soTreEm = Integer.parseInt(txtSoTreEm.getText().trim());
-            
-            double tongTien = (soNguoiLon * tour.getPriceAdult()) + (soTreEm * tour.getPriceChild());
-            
-            txtTongTien.setText(String.format("%,.0f", tongTien));
-            
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số người phải là số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    
-    private void dienFormTuBang() {
-        int dongDuocChon = tblDanhSachBooking.getSelectedRow();
-        if (dongDuocChon >= 0) {
-            try {
-                DefaultTableModel model = (DefaultTableModel) tblDanhSachBooking.getModel();
-                String maBooking = model.getValueAt(dongDuocChon, 0).toString();
-                
-                Booking booking = bookingService.findBookingById(maBooking);
-                if (booking != null) {
-                    txtMaBooking.setText(booking.getBookingId());
-                    
-                    // Chọn khách hàng
-                    for (int i = 0; i < cboKhachHang.getItemCount(); i++) {
-                        if (cboKhachHang.getItemAt(i).startsWith(booking.getCustomerId())) {
-                            cboKhachHang.setSelectedIndex(i);
-                            break;
-                        }
-                    }
-                    
-                    // Chọn tour
-                    for (int i = 0; i < cboTour.getItemCount(); i++) {
-                        if (cboTour.getItemAt(i).startsWith(booking.getTourId())) {
-                            cboTour.setSelectedIndex(i);
-                            break;
-                        }
-                    }
-                    
-                    txtSoNguoiLon.setText(String.valueOf(booking.getAdultCount()));
-                    txtSoTreEm.setText(String.valueOf(booking.getChildCount()));
-                    txtTongTien.setText(String.format("%,.0f", booking.getTotalAmount()));
-                    cboTrangThai.setSelectedItem(booking.getStatus());
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-    
-    private void lamMoiForm() {
-        txtMaBooking.setText("");
-        cboKhachHang.setSelectedIndex(0);
-        cboTour.setSelectedIndex(0);
-        txtSoNguoiLon.setText("1");
-        txtSoTreEm.setText("0");
-        txtTongTien.setText("");
-        cboTrangThai.setSelectedIndex(0);
-        txtTimKiem.setText("");
-        tblDanhSachBooking.clearSelection();
-    }
-    
+
     private boolean kiemTraForm() {
-        if (txtMaBooking.getText().trim().isEmpty()) {
+        // ✅ KHÁCH HÀNG KHÔNG CẦN NHẬP MÃ BOOKING
+        if (!isCustomerMode && txtMaBooking.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập mã booking!");
             return false;
         }
-        if (cboKhachHang.getSelectedIndex() == 0) {
+        if (cboKhachHang.getSelectedIndex() == 0 && !isCustomerMode) {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng!");
             return false;
         }
@@ -565,8 +594,142 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         }
         return true;
     }
+
+    private void tinhTien() {
+        if (cboTour.getSelectedIndex() == 0) {
+            JOptionPane.showMessageDialog(this, "Vui lòng chọn tour!");
+            return;
+        }
+
+        try {
+            String luaChonTour = cboTour.getSelectedItem().toString();
+            String maTour = luaChonTour.split(" - ")[0];
+
+            Tour tour = tourService.findTourById(maTour);
+            if (tour == null) {
+                JOptionPane.showMessageDialog(this, "Không tìm thấy tour!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int soNguoiLon = Integer.parseInt(txtSoNguoiLon.getText().trim());
+            int soTreEm = Integer.parseInt(txtSoTreEm.getText().trim());
+
+            double tongTien = (soNguoiLon * tour.getPriceAdult()) + (soTreEm * tour.getPriceChild());
+
+            txtTongTien.setText(String.format("%,.0f", tongTien));
+
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Số người phải là số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void dienFormTuBang() {
+        int dongDuocChon = tblDanhSachBooking.getSelectedRow();
+        if (dongDuocChon >= 0) {
+            try {
+                DefaultTableModel model = (DefaultTableModel) tblDanhSachBooking.getModel();
+                String maBooking = model.getValueAt(dongDuocChon, 0).toString();
+
+                Booking booking = bookingService.findBookingById(maBooking);
+                if (booking != null) {
+                    txtMaBooking.setText(booking.getBookingId());
+
+                    // Chọn khách hàng
+                    for (int i = 0; i < cboKhachHang.getItemCount(); i++) {
+                        if (cboKhachHang.getItemAt(i).startsWith(booking.getCustomerId())) {
+                            cboKhachHang.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+
+                    // Chọn tour
+                    for (int i = 0; i < cboTour.getItemCount(); i++) {
+                        if (cboTour.getItemAt(i).startsWith(booking.getTourId())) {
+                            cboTour.setSelectedIndex(i);
+                            break;
+                        }
+                    }
+
+                    txtSoNguoiLon.setText(String.valueOf(booking.getAdultCount()));
+                    txtSoTreEm.setText(String.valueOf(booking.getChildCount()));
+                    txtTongTien.setText(String.format("%,.0f", booking.getTotalAmount()));
+                    cboTrangThai.setSelectedItem(booking.getStatus());
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+    private void timKiemBooking() {
+        String tuKhoa = txtTimKiem.getText().trim();
+        if (tuKhoa.isEmpty()) {
+            taiDuLieu();
+            return;
+        }
+
+        DefaultTableModel model = (DefaultTableModel) tblDanhSachBooking.getModel();
+        model.setRowCount(0);
+
+        try {
+            List<Booking> danhSachBooking = bookingService.searchBookings(tuKhoa);
+            for (Booking booking : danhSachBooking) {
+                String tenKH = "";
+                try {
+                    Customer kh = customerService.findCustomerById(booking.getCustomerId());
+                    if (kh != null) {
+                        tenKH = kh.getFullName();
+                    }
+                } catch (Exception e) {
+                    tenKH = booking.getCustomerId();
+                }
+
+                String tenTour = "";
+                try {
+                    Tour tour = tourService.findTourById(booking.getTourId());
+                    if (tour != null) {
+                        tenTour = tour.getTourName();
+                    }
+                } catch (Exception e) {
+                    tenTour = booking.getTourId();
+                }
+
+                model.addRow(new Object[]{
+                    booking.getBookingId(),
+                    tenKH,
+                    tenTour,
+                    booking.getAdultCount(),
+                    booking.getChildCount(),
+                    String.format("%,.0f", booking.getTotalAmount()),
+                    booking.getBookingDate() != null ? dateFormat.format(booking.getBookingDate()) : "",
+                    booking.getStatus()
+                });
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Lỗi tìm kiếm: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void lamMoiForm() {
+        txtMaBooking.setText("");
+        cboKhachHang.setSelectedIndex(0);
+        cboTour.setSelectedIndex(0);
+        txtSoNguoiLon.setText("1");
+        txtSoTreEm.setText("0");
+        txtTongTien.setText("");
+        cboTrangThai.setSelectedIndex(0);
+        txtTimKiem.setText("");
+        tblDanhSachBooking.clearSelection();
+    }
+
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnTimkiem;
+    private javax.swing.JButton btnSua;
+    private javax.swing.JButton btnThem;
+    private javax.swing.JButton btnTimKiem;
+    private javax.swing.JButton btnXoa;
     private javax.swing.JComboBox<String> cboKhachHang;
     private javax.swing.JComboBox<String> cboTour;
     private javax.swing.JComboBox<String> cboTrangThai;
@@ -576,7 +739,6 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;

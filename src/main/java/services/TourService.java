@@ -69,30 +69,48 @@ public class TourService {
      * Tìm tour theo ID
      */
     public Tour findTourById(String tourId) {
-        try {
-            return hg.findOne(graph,
-                hg.and(
-                    hg.type(Tour.class),
-                    hg.eq("tourId", tourId)
-                )
-            );
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi tìm tour: " + e.getMessage());
+    try {
+        HGHandle handle = hg.findOne(graph, hg.and(
+            hg.type(Tour.class),
+            hg.eq("tourId", tourId)
+        ));
+        
+        if (handle == null) {
             return null;
         }
+        
+        // ✅ PHẢI DÙNG graph.get() ĐỂ LẤY OBJECT
+        return graph.get(handle);
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi tìm tour: " + e.getMessage());
+        e.printStackTrace();
+        return null;
     }
+}
     
     /**
      * Lấy tất cả tours
      */
     public List<Tour> getAllTours() {
-        try {
-            return hg.getAll(graph, hg.type(Tour.class));
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi lấy danh sách tour: " + e.getMessage());
-            return new ArrayList<>();
+    try {
+        List<HGHandle> handles = hg.findAll(graph, hg.type(Tour.class));
+        List<Tour> tours = new ArrayList<>();
+        
+        for (HGHandle handle : handles) {
+            Tour tour = graph.get(handle);  // ✅ DÙNG graph.get()
+            if (tour != null) {
+                tours.add(tour);
+            }
         }
+        
+        return tours;
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi lấy danh sách tours: " + e.getMessage());
+        e.printStackTrace();
+        return new ArrayList<>();
     }
+}
     
     /**
      * Cập nhật tour
@@ -174,25 +192,33 @@ public class TourService {
      * Tìm kiếm tour
      */
     public List<Tour> searchTours(String keyword) {
+    try {
         List<Tour> result = new ArrayList<>();
+        List<HGHandle> handles = hg.findAll(graph, hg.type(Tour.class));
         
-        try {
-            List<Tour> allTours = getAllTours();
+        for (HGHandle handle : handles) {
+            Tour tour = graph.get(handle);  // ✅ DÙNG graph.get()
             
-            for (Tour tour : allTours) {
-                if (tour.getTourId().toLowerCase().contains(keyword.toLowerCase()) ||
-                    tour.getTourName().toLowerCase().contains(keyword.toLowerCase()) ||
-                    tour.getDestination().toLowerCase().contains(keyword.toLowerCase())) {
+            if (tour != null) {
+                String tourName = tour.getTourName() != null ? tour.getTourName().toLowerCase() : "";
+                String destination = tour.getDestination() != null ? tour.getDestination().toLowerCase() : "";
+                String tourId = tour.getTourId() != null ? tour.getTourId().toLowerCase() : "";
+                
+                if (tourName.contains(keyword.toLowerCase()) ||
+                    destination.contains(keyword.toLowerCase()) ||
+                    tourId.contains(keyword.toLowerCase())) {
                     result.add(tour);
                 }
             }
-            
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi tìm kiếm tour: " + e.getMessage());
         }
         
         return result;
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi tìm kiếm tours: " + e.getMessage());
+        e.printStackTrace();
+        return new ArrayList<>();
     }
+}
     
     /**
      * Lấy tours có sẵn (AVAILABLE)

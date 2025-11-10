@@ -11,7 +11,6 @@ import java.util.Date;
 import java.util.List;
 import models.Customer;
 import models.Tour;
-
 /**
  * Service quản lý Booking
  *
