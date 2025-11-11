@@ -35,6 +35,8 @@ public class GUI_mainAD extends javax.swing.JFrame {
         pnlMain.add(new JPanel_qlxe(), "QLXe");
         pnlMain.add(new JPanel_thongke(), "Thongke");        
         pnlMain.add(new JPanel_Dattourkh(), "DatTour");
+                pnlMain.add(new JPanel_qltaikhoan(), "QLTaiKhoan");
+
 
 
         // Hiển thị panel đầu tiên
@@ -232,7 +234,7 @@ public class GUI_mainAD extends javax.swing.JFrame {
 
     private void btnQLTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLTKActionPerformed
         // TODO add your handling code here:
-        cardLayout.show(pnlMain, "QLTK");
+        cardLayout.show(pnlMain, "QLTaiKhoan");
     }//GEN-LAST:event_btnQLTKActionPerformed
 
     private void btnTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTKActionPerformed

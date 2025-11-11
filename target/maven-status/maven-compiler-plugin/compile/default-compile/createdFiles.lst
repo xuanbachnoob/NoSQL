@@ -1,5 +1,6 @@
 GUI\JPanel_Dattourkh$3.class
 com\mycompany\qltourdl\QLTourDL.class
+GUI\JPanel_qltaikhoan$4.class
 GUI\JPanel_qltour$4.class
 models\BookingDetail.class
 GUI\GUI_mainAD$4.class
@@ -23,14 +24,18 @@ GUI\JPanel_Dattourkh$7.class
 GUI\JPanel_xemtour$3.class
 GUI\GUI_mainAD$3.class
 services\StatisticsService.class
+GUI\JPanel_qlks$6.class
 GUI\JPanel_Dattourkh$4.class
 GUI\GUI_Login.class
 GUI\JPanel_qltour$5.class
+GUI\JPanel_qltaikhoan$3.class
 GUI\GUI_mainkh$3.class
 database\HyperGraphDBManager.class
 GUI\JPanel_qlnv$6.class
 models\Employee.class
 GUI\JPanel_qlks$3.class
+GUI\JPanel_qltaikhoan$6.class
+GUI\JPanel_qltaikhoan.class
 GUI\JPanel_qlxe$3.class
 GUI\GUI_mainAD$6.class
 services\BookingService.class
@@ -47,6 +52,7 @@ GUI\JPanel_qltour$2.class
 GUI\JPanel_Dattourkh$1.class
 models\Booking.class
 GUI\GUI_mainAD$2.class
+GUI\JPanel_qltaikhoan$2.class
 GUI\JPanel_qlxe.class
 GUI\JPanel_qltour$6.class
 GUI\JPanel_Dattourkh$5.class
@@ -59,6 +65,7 @@ GUI\JPanel_qlnv$7.class
 GUI\JPanel_qlks.class
 GUI\JPanel_qlks$1.class
 GUI\GUI_mainAD$5.class
+GUI\JPanel_qltaikhoan$5.class
 GUI\JPanel_xemtour$4.class
 GUI\JPanel_Dattourkh$2.class
 GUI\JPanel_xemtour.class
@@ -74,6 +81,7 @@ GUI\GUI_Login$2.class
 GUI\JPanel_Dattourkh$6.class
 GUI\JPanel_qlks$2.class
 models\Hotel.class
+GUI\JPanel_qltaikhoan$1.class
 GUI\GUI_mainAD$1.class
 models\Customer.class
 GUI\JPanel_qlnv$8.class

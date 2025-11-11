@@ -28,7 +28,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="txtTimkiem" min="-2" pref="194" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btnTimkiem" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnTimKiem" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="228" max="32767" attributes="0"/>
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
@@ -53,7 +53,7 @@
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtDiadiem" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
+                          <Component id="txtDiachi" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
                           <Component id="txtSucchua" alignment="0" min="-2" pref="182" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace max="32767" attributes="0"/>
@@ -85,7 +85,7 @@
                               <Component id="txtMaks" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <Group type="103" alignment="1" groupAlignment="3" attributes="0">
-                              <Component id="txtDiadiem" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="txtDiachi" alignment="3" min="-2" max="-2" attributes="0"/>
                               <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
@@ -110,7 +110,7 @@
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
                   <Component id="txtTimkiem" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="btnTimkiem" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnTimKiem" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="189" max="-2" attributes="0"/>
@@ -125,12 +125,12 @@
         <Property name="text" type="java.lang.String" value="S&#x1ee9;c ch&#x1ee9;a:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnTimkiem">
+    <Component class="javax.swing.JButton" name="btnTimKiem">
       <Properties>
         <Property name="text" type="java.lang.String" value="T&#xec;m ki&#x1ebf;m"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimkiemActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnTimKiemActionPerformed"/>
       </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btnSua">
@@ -177,7 +177,7 @@
         <Property name="text" type="java.lang.String" value="T&#xea;n kh&#xe1;ch s&#x1ea1;n:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtDiadiem">
+    <Component class="javax.swing.JTextField" name="txtDiachi">
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>

@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
  */
 package GUI;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.MouseAdapter;
@@ -40,7 +42,7 @@ public class JPanel_qlks extends javax.swing.JPanel {
     private void initComponents() {
 
         jLabel4 = new javax.swing.JLabel();
-        btnTimkiem = new javax.swing.JButton();
+        btnTimKiem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         txtMaks = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
@@ -48,7 +50,7 @@ public class JPanel_qlks extends javax.swing.JPanel {
         jTable1 = new javax.swing.JTable();
         txtTenks = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        txtDiadiem = new javax.swing.JTextField();
+        txtDiachi = new javax.swing.JTextField();
         jLabel7 = new javax.swing.JLabel();
         btnThem = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -60,10 +62,10 @@ public class JPanel_qlks extends javax.swing.JPanel {
 
         jLabel4.setText("Sức chứa:");
 
-        btnTimkiem.setText("Tìm kiếm");
-        btnTimkiem.addActionListener(new java.awt.event.ActionListener() {
+        btnTimKiem.setText("Tìm kiếm");
+        btnTimKiem.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnTimkiemActionPerformed(evt);
+                btnTimKiemActionPerformed(evt);
             }
         });
 
@@ -126,7 +128,7 @@ public class JPanel_qlks extends javax.swing.JPanel {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(txtTimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, 194, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnTimkiem)
+                        .addComponent(btnTimKiem)
                         .addGap(0, 228, Short.MAX_VALUE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(38, 38, 38)
@@ -146,7 +148,7 @@ public class JPanel_qlks extends javax.swing.JPanel {
                             .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtDiadiem, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtDiachi, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtSucchua, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -170,7 +172,7 @@ public class JPanel_qlks extends javax.swing.JPanel {
                                 .addComponent(jLabel1)
                                 .addComponent(txtMaks, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(txtDiadiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(txtDiachi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(jLabel3)))
                         .addGap(21, 21, 21)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -188,7 +190,7 @@ public class JPanel_qlks extends javax.swing.JPanel {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel7)
                     .addComponent(txtTimkiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnTimkiem))
+                    .addComponent(btnTimKiem))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(20, 20, 20))
@@ -196,38 +198,54 @@ public class JPanel_qlks extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     
-        private void setupTableModel() {
+    private void setupTableModel() {
         tableModel = (DefaultTableModel) jTable1.getModel();
         tableModel.setRowCount(0);
     }
     
+    /**
+     * Setup event listeners
+     */
     private void setupEventListeners() {
+        // Click vào table để điền form
         jTable1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = jTable1.getSelectedRow();
-                if (row >= 0) {
-                    txtMaks.setText(jTable1.getValueAt(row, 0).toString());
-                    txtTenks.setText(jTable1.getValueAt(row, 1).toString());
-                    txtDiadiem.setText(jTable1.getValueAt(row, 2).toString());
+                dienFormTuBang();
+            }
+        });
+        
+        // Enter để tìm kiếm
+        txtTimkiem.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    btnTimkiemActionPerformed(null);
                 }
             }
         });
     }
     
+    /**
+     * Load dữ liệu lên table
+     */
     private void loadData() {
         tableModel.setRowCount(0);
         try {
             List<Hotel> hotels = hotelService.getAllHotels();
+            
             for (Hotel h : hotels) {
                 Object[] row = {
                     h.getHotelId(),
                     h.getHotelName(),
-                    h.getLocation()
+                    h.getPhone(),
+                    h.getAddress()
                 };
                 tableModel.addRow(row);
             }
+            
             System.out.println("✅ Đã load " + hotels.size() + " khách sạn");
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
                 "❌ Lỗi khi load dữ liệu: " + e.getMessage(), 
@@ -235,121 +253,30 @@ public class JPanel_qlks extends javax.swing.JPanel {
                 JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
-    }     
-    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
-        // TODO add your handling code here:
-        
-                try {
-            String maks = txtMaks.getText().trim();
-            
-            if (maks.isEmpty()) {
-                JOptionPane.showMessageDialog(this, 
-                    "⚠️ Vui lòng chọn khách sạn cần sửa!", 
-                    "Thiếu thông tin", 
-                    JOptionPane.WARNING_MESSAGE);
-                return;
+    }
+    
+    /**
+     * Điền thông tin từ table vào form
+     */
+    private void dienFormTuBang() {
+        int row = jTable1.getSelectedRow();
+        if (row >= 0) {
+            try {
+                txtMaks.setText(jTable1.getValueAt(row, 0).toString());
+                txtTenks.setText(jTable1.getValueAt(row, 1).toString());
+                txtSdt.setText(jTable1.getValueAt(row, 2).toString());
+                txtDiachi.setText(jTable1.getValueAt(row, 3).toString());
+            } catch (Exception e) {
+                e.printStackTrace();
             }
-            
-            String tenks = txtTenks.getText().trim();
-            String diadiem = txtDiadiem.getText().trim();
-            
-//            Hotel hotel = new Hotel(maks, tenks, diadiem);
-            
-//            if (hotelService.updateHotel(maks, hotel)) {
-//                JOptionPane.showMessageDialog(this, 
-//                    "✅ Cập nhật khách sạn thành công!", 
-//                    "Thành công", 
-//                    JOptionPane.INFORMATION_MESSAGE);
-//                clearForm();
-//                loadData();
-//            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "❌ Lỗi: " + e.getMessage(), 
-                "Lỗi", 
-                JOptionPane.ERROR_MESSAGE);
         }
-    }//GEN-LAST:event_btnSuaActionPerformed
+    }
 
-    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
-        // TODO add your handling code here:
-                try {
-            String maks = txtMaks.getText().trim();
-            
-            if (maks.isEmpty()) {
-                JOptionPane.showMessageDialog(this, 
-                    "⚠️ Vui lòng chọn khách sạn cần xóa!", 
-                    "Thiếu thông tin", 
-                    JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-            int choice = JOptionPane.showConfirmDialog(this, 
-                "⚠️ Bạn có chắc muốn xóa khách sạn: " + maks + "?", 
-                "Xác nhận xóa", 
-                JOptionPane.YES_NO_OPTION,
-                JOptionPane.WARNING_MESSAGE);
-            
-            if (choice == JOptionPane.YES_OPTION) {
-                if (hotelService.deleteHotel(maks)) {
-                    JOptionPane.showMessageDialog(this, 
-                        "✅ Đã xóa khách sạn thành công!", 
-                        "Thành công", 
-                        JOptionPane.INFORMATION_MESSAGE);
-                    clearForm();
-                    loadData();
-                }
-            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "❌ Lỗi: " + e.getMessage(), 
-                "Lỗi", 
-                JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnXoaActionPerformed
-
-    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
-        // TODO add your handling code here:
-        try {
-            String maks = txtMaks.getText().trim();
-            String tenks = txtTenks.getText().trim();
-            String diadiem = txtDiadiem.getText().trim();
-            
-            if (maks.isEmpty() || tenks.isEmpty() || diadiem.isEmpty()) {
-                JOptionPane.showMessageDialog(this, 
-                    "⚠️ Vui lòng nhập đầy đủ thông tin!", 
-                    "Thiếu thông tin", 
-                    JOptionPane.WARNING_MESSAGE);
-                return;
-            }
-            
-//            Hotel hotel = new Hotel(maks, tenks, diadiem);
-
-            
-//            if (hotelService.addHotel(hotel) != null) {
-//                JOptionPane.showMessageDialog(this, 
-//                    "✅ Thêm khách sạn thành công!", 
-//                    "Thành công", 
-//                    JOptionPane.INFORMATION_MESSAGE);
-//                clearForm();
-//                loadData();
-//            } else {
-//                JOptionPane.showMessageDialog(this, 
-//                    "❌ Mã khách sạn đã tồn tại!", 
-//                    "Lỗi", 
-//                    JOptionPane.ERROR_MESSAGE);
-//            }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, 
-                "❌ Lỗi: " + e.getMessage(), 
-                "Lỗi", 
-                JOptionPane.ERROR_MESSAGE);
-        }
-    }//GEN-LAST:event_btnThemActionPerformed
-
-    private void btnTimkiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimkiemActionPerformed
-        // TODO add your handling code here:
-        
+    
+    /**
+     * Tìm kiếm khách sạn
+     */
+    private void btnTimkiemActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             String keyword = txtTimkiem.getText().trim();
             
@@ -365,12 +292,14 @@ public class JPanel_qlks extends javax.swing.JPanel {
             for (Hotel h : allHotels) {
                 if (h.getHotelId().toLowerCase().contains(keyword.toLowerCase()) ||
                     h.getHotelName().toLowerCase().contains(keyword.toLowerCase()) ||
-                    h.getLocation().toLowerCase().contains(keyword.toLowerCase())) {
+                    h.getPhone().contains(keyword) ||
+                    h.getAddress().toLowerCase().contains(keyword.toLowerCase())) {
                     
                     Object[] row = {
                         h.getHotelId(),
                         h.getHotelName(),
-                        h.getLocation()
+                        h.getPhone(),
+                        h.getAddress()
                     };
                     tableModel.addRow(row);
                     count++;
@@ -379,32 +308,235 @@ public class JPanel_qlks extends javax.swing.JPanel {
             
             if (count == 0) {
                 JOptionPane.showMessageDialog(this, 
-                    "❌ Không tìm thấy khách sạn!", 
+                    "❌ Không tìm thấy khách sạn với từ khóa: " + keyword, 
                     "Kết quả", 
                     JOptionPane.INFORMATION_MESSAGE);
             }
+            
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, 
                 "❌ Lỗi: " + e.getMessage(), 
                 "Lỗi", 
                 JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
         }
-    }//GEN-LAST:event_btnTimkiemActionPerformed
-                                      
+    }
     
+    /**
+     * Làm mới form
+     */
+    private void btnLammoiActionPerformed(java.awt.event.ActionEvent evt) {
+        clearForm();
+        loadData();
+    }
+    
+    /**
+     * Kiểm tra form
+     */
+    private boolean kiemTraForm() {
+        if (txtMaks.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "⚠️ Vui lòng nhập mã khách sạn!");
+            txtMaks.requestFocus();
+            return false;
+        }
+        
+        if (txtTenks.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "⚠️ Vui lòng nhập tên khách sạn!");
+            txtTenks.requestFocus();
+            return false;
+        }
+        
+        if (txtSdt.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "⚠️ Vui lòng nhập số điện thoại!");
+            txtSdt.requestFocus();
+            return false;
+        }
+        
+        if (txtDiachi.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "⚠️ Vui lòng nhập địa chỉ!");
+            txtDiachi.requestFocus();
+            return false;
+        }
+        
+        return true;
+    }
+    
+    /**
+     * Clear form
+     */
     private void clearForm() {
         txtMaks.setText("");
         txtTenks.setText("");
-        txtDiadiem.setText("");
+        txtSdt.setText("");
+        txtDiachi.setText("");
         txtTimkiem.setText("");
         jTable1.clearSelection();
         txtMaks.requestFocus();
-    }
+    }   
+    private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
+        try {
+            String maks = txtMaks.getText().trim();
+            
+            if (maks.isEmpty()) {
+                JOptionPane.showMessageDialog(this, 
+                    "⚠️ Vui lòng chọn khách sạn cần sửa!", 
+                    "Thiếu thông tin", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            if (!kiemTraForm()) {
+                return;
+            }
+            
+            String tenks = txtTenks.getText().trim();
+            String sdt = txtSdt.getText().trim();
+            String diachi = txtDiachi.getText().trim();
+            
+            Hotel hotel = new Hotel(maks, tenks, sdt, diachi);
+            
+            if (hotelService.updateHotel(maks, hotel)) {
+                JOptionPane.showMessageDialog(this, 
+                    "✅ Cập nhật khách sạn thành công!", 
+                    "Thành công", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                clearForm();
+                loadData();
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "❌ Lỗi: " + e.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnSuaActionPerformed
+
+    private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
+try {
+            String maks = txtMaks.getText().trim();
+            
+            if (maks.isEmpty()) {
+                JOptionPane.showMessageDialog(this, 
+                    "⚠️ Vui lòng chọn khách sạn cần xóa!", 
+                    "Thiếu thông tin", 
+                    JOptionPane.WARNING_MESSAGE);
+                return;
+            }
+            
+            int choice = JOptionPane.showConfirmDialog(this, 
+                "⚠️ Bạn có chắc muốn xóa khách sạn: " + txtTenks.getText() + "?", 
+                "Xác nhận xóa", 
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.WARNING_MESSAGE);
+            
+            if (choice == JOptionPane.YES_OPTION) {
+                if (hotelService.deleteHotel(maks)) {
+                    JOptionPane.showMessageDialog(this, 
+                        "✅ Đã xóa khách sạn thành công!", 
+                        "Thành công", 
+                        JOptionPane.INFORMATION_MESSAGE);
+                    clearForm();
+                    loadData();
+                }
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "❌ Lỗi: " + e.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnXoaActionPerformed
+
+    private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
+        try {
+            if (!kiemTraForm()) {
+                return;
+            }
+            
+            String maks = txtMaks.getText().trim();
+            String tenks = txtTenks.getText().trim();
+            String sdt = txtSdt.getText().trim();
+            String diachi = txtDiachi.getText().trim();
+            
+            Hotel hotel = new Hotel(maks, tenks, sdt, diachi);
+            
+            if (hotelService.addHotel(hotel) != null) {
+                JOptionPane.showMessageDialog(this, 
+                    "✅ Thêm khách sạn thành công!", 
+                    "Thành công", 
+                    JOptionPane.INFORMATION_MESSAGE);
+                clearForm();
+                loadData();
+            } else {
+                JOptionPane.showMessageDialog(this, 
+                    "❌ Mã khách sạn đã tồn tại!", 
+                    "Lỗi", 
+                    JOptionPane.ERROR_MESSAGE);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "❌ Lỗi: " + e.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnThemActionPerformed
+
+    private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
+        try {
+            String keyword = txtTimkiem.getText().trim();
+            
+            if (keyword.isEmpty()) {
+                loadData();
+                return;
+            }
+            
+            tableModel.setRowCount(0);
+            List<Hotel> allHotels = hotelService.getAllHotels();
+            int count = 0;
+            
+            for (Hotel h : allHotels) {
+                if (h.getHotelId().toLowerCase().contains(keyword.toLowerCase()) ||
+                    h.getHotelName().toLowerCase().contains(keyword.toLowerCase()) ||
+                    h.getPhone().contains(keyword) ||
+                    h.getAddress().toLowerCase().contains(keyword.toLowerCase())) {
+                    
+                    Object[] row = {
+                        h.getHotelId(),
+                        h.getHotelName(),
+                        h.getPhone(),
+                        h.getAddress()
+                    };
+                    tableModel.addRow(row);
+                    count++;
+                }
+            }
+            
+            if (count == 0) {
+                JOptionPane.showMessageDialog(this, 
+                    "❌ Không tìm thấy khách sạn với từ khóa: " + keyword, 
+                    "Kết quả", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, 
+                "❌ Lỗi: " + e.getMessage(), 
+                "Lỗi", 
+                JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_btnTimKiemActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnSua;
     private javax.swing.JButton btnThem;
-    private javax.swing.JButton btnTimkiem;
+    private javax.swing.JButton btnTimKiem;
     private javax.swing.JButton btnXoa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -414,7 +546,7 @@ public class JPanel_qlks extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextField txtDiadiem;
+    private javax.swing.JTextField txtDiachi;
     private javax.swing.JTextField txtMaks;
     private javax.swing.JTextField txtSdt;
     private javax.swing.JTextField txtSucchua;

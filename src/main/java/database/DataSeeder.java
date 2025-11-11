@@ -126,35 +126,25 @@ public class DataSeeder {
      * Seed Hotels
      */
     private void seedHotels() {
-        System.out.println("📌 Đang seed Hotels...");
+    System.out.println("📌 Đang seed Hotels...");
 
-        Hotel h1 = new Hotel("HT001", "Vinpearl Phú Quốc", "Bãi Dài, Gành Dầu", "Phú Quốc", 5, "0297123456");
-        h1.setPricePerNight(2500000);
-        h1.setAmenities("Pool, Spa, Private Beach, Restaurant");
-        hotelService.addHotel(h1);
+    Hotel h1 = new Hotel("HT001", "Vinpearl Phú Quốc", "0297123456", "Bãi Dài, Gành Dầu, Phú Quốc");
+    hotelService.addHotel(h1);
 
-        Hotel h2 = new Hotel("HT002", "Mường Thanh Đà Lạt", "02 Trần Phú", "Đà Lạt", 4, "0263383888");
-        h2.setPricePerNight(1200000);
-        h2.setAmenities("Pool, Gym, Restaurant, Conference Room");
-        hotelService.addHotel(h2);
+    Hotel h2 = new Hotel("HT002", "Mường Thanh Đà Lạt", "0263383888", "02 Trần Phú, Đà Lạt");
+    hotelService.addHotel(h2);
 
-        Hotel h3 = new Hotel("HT003", "Sheraton Nha Trang", "26-28 Trần Phú", "Nha Trang", 5, "0258388000");
-        h3.setPricePerNight(3000000);
-        h3.setAmenities("Beach Access, Pool, Spa, Multiple Restaurants");
-        hotelService.addHotel(h3);
+    Hotel h3 = new Hotel("HT003", "Sheraton Nha Trang", "0258388000", "26-28 Trần Phú, Nha Trang");
+    hotelService.addHotel(h3);
 
-        Hotel h4 = new Hotel("HT004", "Sapa Jade Hill Resort", "Mường Hoa", "Sa Pa", 4, "0214387888");
-        h4.setPricePerNight(1800000);
-        h4.setAmenities("Mountain View, Spa, Restaurant, Trekking Tours");
-        hotelService.addHotel(h4);
+    Hotel h4 = new Hotel("HT004", "Sapa Jade Hill Resort", "0214387888", "Mường Hoa, Sa Pa");
+    hotelService.addHotel(h4);
 
-        Hotel h5 = new Hotel("HT005", "Furama Resort Đà Nẵng", "68 Hồ Xuân Hương", "Đà Nẵng", 5, "0236384733");
-        h5.setPricePerNight(2800000);
-        h5.setAmenities("Beach Front, Pool, Spa, Golf Course");
-        hotelService.addHotel(h5);
+    Hotel h5 = new Hotel("HT005", "Furama Resort Đà Nẵng", "0236384733", "68 Hồ Xuân Hương, Đà Nẵng");
+    hotelService.addHotel(h5);
 
-        System.out.println("✅ Đã seed 5 hotels\n");
-    }
+    System.out.println("✅ Đã seed 5 hotels\n");
+}
 
     /**
      * Seed Tours

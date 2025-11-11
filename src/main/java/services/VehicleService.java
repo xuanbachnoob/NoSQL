@@ -1,3 +1,4 @@
+
 package services;
 
 import database.HyperGraphDBManager;
@@ -55,18 +56,29 @@ public class VehicleService {
      * Tìm xe theo ID
      */
     public Vehicle findVehicleById(String vehicleId) {
-        try {
-            return hg.findOne(graph,
-                hg.and(
-                    hg.type(Vehicle.class),
-                    hg.eq("vehicleId", vehicleId)
-                )
-            );
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi tìm xe: " + e.getMessage());
+    try {
+        // ✅ Bước 1: Lấy handle
+        HGHandle handle = hg.findOne(graph,
+            hg.and(
+                hg.type(Vehicle.class),
+                hg.eq("vehicleId", vehicleId)
+            )
+        );
+        
+        // ✅ Bước 2: Kiểm tra null
+        if (handle == null) {
             return null;
         }
+        
+        // ✅ Bước 3: Dùng graph.get() để lấy object
+        return graph.get(handle);
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi tìm xe: " + e.getMessage());
+        e.printStackTrace();
+        return null;
     }
+}
     
     /**
      * Lấy tất cả xe
