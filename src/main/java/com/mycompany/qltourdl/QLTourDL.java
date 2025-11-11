@@ -10,7 +10,6 @@ import models.Tour;
 import models.Booking;
 import models.Vehicle;
 import models.Hotel;
-import models.Employee;
 
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -212,10 +211,7 @@ public class QLTourDL {
         System.out.println();
     }
     
-    /**
-     * In thống kê database
-     * Hiển thị số lượng từng loại entity trong database
-     */
+
     private static void printDatabaseStats() {
         try {
             HyperGraphDBManager dbManager = HyperGraphDBManager.getInstance();
@@ -229,18 +225,12 @@ public class QLTourDL {
             long bookings = dbManager.count(Booking.class);
             long vehicles = dbManager.count(Vehicle.class);
             long hotels = dbManager.count(Hotel.class);
-            long employees = dbManager.count(Employee.class);
             
             System.out.println("  📊 Customers:  " + String.format("%,d", customers));
             System.out.println("  📊 Tours:      " + String.format("%,d", tours));
             System.out.println("  📊 Bookings:   " + String.format("%,d", bookings));
             System.out.println("  📊 Vehicles:   " + String.format("%,d", vehicles));
             System.out.println("  📊 Hotels:     " + String.format("%,d", hotels));
-            System.out.println("  📊 Employees:  " + String.format("%,d", employees));
-            
-            long total = customers + tours + bookings + vehicles + hotels + employees;
-            System.out.println("  ─".repeat(22));
-            System.out.println("  💾 Total:      " + String.format("%,d", total) + " records");
             
             System.out.println("╚════════════════════════════════════════════╝\n");
             

@@ -37,6 +37,12 @@ public class JPanel_qltour extends javax.swing.JPanel {
         this.relationshipService = new RelationshipService();
         initComponents();
         khoiTaoDuLieu();
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+        @Override
+        public void componentShown(java.awt.event.ComponentEvent evt) {
+            khoiTaoDuLieu();
+        }
+    });
     }
 
     /**

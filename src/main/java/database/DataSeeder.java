@@ -14,7 +14,6 @@ public class DataSeeder {
     private TourService tourService;
     private VehicleService vehicleService;
     private HotelService hotelService;
-    private EmployeeService employeeService;
     private BookingService bookingService;
     private RelationshipService relationshipService;
 
@@ -23,7 +22,6 @@ public class DataSeeder {
         this.tourService = new TourService();
         this.vehicleService = new VehicleService();
         this.hotelService = new HotelService();
-        this.employeeService = new EmployeeService();
         this.bookingService = new BookingService();
         this.relationshipService = new RelationshipService();
     }
@@ -36,7 +34,6 @@ public class DataSeeder {
         System.out.println("║   🌱 BẮT ĐẦU SEED DỮ LIỆU MẪU...            ║");
         System.out.println("╚═══════════════════════════════════════════════╝\n");
         seedCustomers();
-        seedEmployees();
         seedVehicles();
         seedHotels();
         seedTours();
@@ -56,48 +53,7 @@ public class DataSeeder {
     /**
      * Seed Employees
      */
-    private void seedEmployees() {
-        System.out.println("📌 Đang seed Employees...");
-
-        Employee emp1 = new Employee(
-                "EMP001",
-                "nvien1",
-                "123456",
-                "Nguyễn Thị Hoa",
-                "nvhoa@company.com",
-                "0901234567",
-                "Sales Staff",
-                "Sales"
-        );
-        employeeService.addEmployee(emp1);
-
-        Employee emp2 = new Employee(
-                "EMP002",
-                "nvien2",
-                "123456",
-                "Trần Văn Nam",
-                "tvnam@company.com",
-                "0912345678",
-                "Tour Guide",
-                "Operations"
-        );
-        employeeService.addEmployee(emp2);
-
-        Employee emp3 = new Employee(
-                "EMP003",
-                "nvien3",
-                "123456",
-                "Lê Thị Mai",
-                "ltmai@company.com",
-                "0923456789",
-                "Customer Service",
-                "Customer Service"
-        );
-        employeeService.addEmployee(emp3);
-
-        System.out.println("✅ Đã seed 3 employees\n");
-    }
-
+    
     /**
      * Seed Vehicles
      */

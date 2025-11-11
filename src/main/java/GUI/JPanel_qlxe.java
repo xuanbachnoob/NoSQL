@@ -30,6 +30,13 @@ public class JPanel_qlxe extends javax.swing.JPanel {
         this.vehicleService = new VehicleService();
         initComponents();
         khoiTaoDuLieu();
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+        @Override
+        public void componentShown(java.awt.event.ComponentEvent evt) {
+            System.out.println("🔄 [Quản lý Xe] Panel hiển thị, đang reload...");
+            khoiTaoDuLieu();
+        }
+    });
     }
 
     /**

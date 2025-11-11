@@ -42,6 +42,15 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         this.customerService = new CustomerService();
         initComponents();
         khoiTaoDuLieu();
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+        @Override
+        public void componentShown(java.awt.event.ComponentEvent evt) {
+            System.out.println("🔄 [Đặt Tour] Panel hiển thị, đang reload...");
+            taiDanhSachKhachHang();
+            taiDanhSachTour();
+            taiDuLieu();
+        }
+    });
     }
 
     /**
@@ -192,10 +201,10 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                             .addComponent(jLabel6))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cboTour, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(cboKhachHang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtMaBooking, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(119, 119, 119)
+                            .addComponent(txtMaBooking)
+                            .addComponent(cboKhachHang, 0, 180, Short.MAX_VALUE)
+                            .addComponent(cboTour, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGap(32, 32, 32)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

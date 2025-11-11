@@ -32,6 +32,13 @@ public class JPanel_qltaikhoan extends javax.swing.JPanel {
         setupTableModel();
         setupEventListeners();
         loadData();
+        this.addComponentListener(new java.awt.event.ComponentAdapter() {
+        @Override
+        public void componentShown(java.awt.event.ComponentEvent evt) {
+            System.out.println("🔄 [Quản lý TK] Panel hiển thị, đang reload...");
+            loadData();
+        }
+    });
     }
 
     /**
@@ -659,7 +666,7 @@ public class JPanel_qltaikhoan extends javax.swing.JPanel {
         txtSdt.setText("");
         txtEmail.setText("");
         txtTimkiem.setText("");
-        cboAccountType.setSelectedIndex(2); // CUSTOMER
+        cboAccountType.setSelectedIndex(0); // CUSTOMER
         cboGioitinh.setSelectedIndex(0); // MALE
         tblCustomers.clearSelection();
         txtMaKH.setEnabled(true);

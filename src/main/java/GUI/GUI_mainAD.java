@@ -30,7 +30,6 @@ public class GUI_mainAD extends javax.swing.JFrame {
         // Thêm các panel
         pnlMain.add(new JPanel_qltour(), "QuanlyTour");
         pnlMain.add(new JPanel_qlks(), "QLKS");
-        pnlMain.add(new JPanel_qlnv(), "QLNV");
 //        pnlMain.add(new JPanel_qltaikhoan(), "QLTK");
         pnlMain.add(new JPanel_qlxe(), "QLXe");
         pnlMain.add(new JPanel_thongke(), "Thongke");        
@@ -58,7 +57,6 @@ public class GUI_mainAD extends javax.swing.JFrame {
         btnQLKS = new javax.swing.JButton();
         btnQLT = new javax.swing.JButton();
         btnQLX = new javax.swing.JButton();
-        btnQLNV = new javax.swing.JButton();
         btnQLTK = new javax.swing.JButton();
         btnTK = new javax.swing.JButton();
         btnDattour = new javax.swing.JButton();
@@ -93,13 +91,6 @@ public class GUI_mainAD extends javax.swing.JFrame {
         btnQLX.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnQLXActionPerformed(evt);
-            }
-        });
-
-        btnQLNV.setText("Quản lý nhân viên");
-        btnQLNV.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnQLNVActionPerformed(evt);
             }
         });
 
@@ -138,12 +129,10 @@ public class GUI_mainAD extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnQLX)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnQLNV)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnQLTK)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(btnTK)
-                .addGap(58, 58, 58))
+                .addGap(188, 188, 188))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,7 +141,6 @@ public class GUI_mainAD extends javax.swing.JFrame {
                     .addComponent(btnQLT)
                     .addComponent(btnQLKS)
                     .addComponent(btnQLX)
-                    .addComponent(btnQLNV)
                     .addComponent(btnQLTK)
                     .addComponent(btnTK)
                     .addComponent(btnDattour))
@@ -186,8 +174,8 @@ public class GUI_mainAD extends javax.swing.JFrame {
                         .addGap(332, 332, 332)
                         .addComponent(jLabel1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -200,8 +188,8 @@ public class GUI_mainAD extends javax.swing.JFrame {
                         .addGap(20, 20, 20)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jButton1)))
+                        .addContainerGap()
+                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
@@ -226,11 +214,6 @@ public class GUI_mainAD extends javax.swing.JFrame {
         // TODO add your handling code here:
         cardLayout.show(pnlMain, "QLXe");
     }//GEN-LAST:event_btnQLXActionPerformed
-
-    private void btnQLNVActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLNVActionPerformed
-        // TODO add your handling code here:
-        cardLayout.show(pnlMain, "QLNV");
-    }//GEN-LAST:event_btnQLNVActionPerformed
 
     private void btnQLTKActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnQLTKActionPerformed
         // TODO add your handling code here:
@@ -307,7 +290,6 @@ public class GUI_mainAD extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDattour;
     private javax.swing.JButton btnQLKS;
-    private javax.swing.JButton btnQLNV;
     private javax.swing.JButton btnQLT;
     private javax.swing.JButton btnQLTK;
     private javax.swing.JButton btnQLX;
