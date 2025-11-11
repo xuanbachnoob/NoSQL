@@ -17,6 +17,8 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Date;
 
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
 /**
  *
  * @author xuanb
@@ -77,13 +79,13 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
 
         tblDanhSachBooking.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Tour", "Tên Tuor", "Thời gian", "Địa điểm", "Mã Xe", "Mã Khách sạn"
+                "Mã Tour", "Tên Tuor", "Thời gian", "Địa điểm", "Mã Xe", "Mã Khách sạn", "Title 7", "Title 8", "Title 9"
             }
         ));
         jScrollPane1.setViewportView(tblDanhSachBooking);
@@ -112,18 +114,6 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         cboKhachHang.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         cboTour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        txtSoNguoiLon.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSoNguoiLonActionPerformed(evt);
-            }
-        });
-
-        txtSoTreEm.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtSoTreEmActionPerformed(evt);
-            }
-        });
 
         cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
@@ -273,15 +263,6 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         timKiemBooking();
     }//GEN-LAST:event_btnTimKiemActionPerformed
 
-    private void txtSoNguoiLonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoNguoiLonActionPerformed
-        // TODO add your handling code here:
-        tinhTien();
-    }//GEN-LAST:event_txtSoNguoiLonActionPerformed
-
-    private void txtSoTreEmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtSoTreEmActionPerformed
-        tinhTien();        // TODO add your handling code here:
-    }//GEN-LAST:event_txtSoTreEmActionPerformed
-
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {
         lamMoiForm();
     }
@@ -311,6 +292,42 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                 dienFormTuBang();
             }
         });
+        txtSoNguoiLon.getDocument().addDocumentListener(new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            tinhTien();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            tinhTien();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            tinhTien();
+        }
+    });
+    
+    txtSoTreEm.getDocument().addDocumentListener(new DocumentListener() {
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            tinhTien();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            tinhTien();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            tinhTien();
+        }
+    });
+    
+    // ✅ Tự động tính khi đổi tour
+    cboTour.addActionListener(e -> tinhTien());
     }
 
     private void setupCustomerMode(String username) {

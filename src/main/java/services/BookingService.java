@@ -116,17 +116,26 @@ public class BookingService {
      * @param bookingId Mã booking
      * @return Booking hoặc null nếu không tìm thấy
      */
-    public Booking findBookingById(String bookingId) {
-        try {
-            return hg.findOne(graph, hg.and(
-                    hg.type(Booking.class),
-                    hg.eq("bookingId", bookingId)
-            ));
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi tìm booking: " + e.getMessage());
+public Booking findBookingById(String bookingId) {
+    try {
+        HGHandle handle = hg.findOne(graph, hg.and(
+                hg.type(Booking.class),
+                hg.eq("bookingId", bookingId)
+        ));
+        
+        if (handle == null) {
             return null;
         }
+        
+        // ✅ PHẢI DÙNG graph.get() ĐỂ LẤY OBJECT
+        return graph.get(handle);
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi tìm booking: " + e.getMessage());
+        e.printStackTrace();
+        return null;
     }
+}
 
     /**
      * Lấy tất cả bookings
@@ -134,14 +143,25 @@ public class BookingService {
      * @return List các booking
      */
     public List<Booking> getAllBookings() {
-        try {
-            return hg.getAll(graph, hg.type(Booking.class));
-        } catch (Exception e) {
-            System.err.println("❌ Lỗi khi lấy danh sách bookings: " + e.getMessage());
-            e.printStackTrace();
-            return new ArrayList<>();
+    try {
+        List<HGHandle> handles = hg.findAll(graph, hg.type(Booking.class));
+        List<Booking> bookings = new ArrayList<>();
+        
+        for (HGHandle handle : handles) {
+            Booking booking = graph.get(handle);  // ✅ DÙNG graph.get()
+            if (booking != null) {
+                bookings.add(booking);
+            }
         }
+        
+        return bookings;
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi khi lấy danh sách bookings: " + e.getMessage());
+        e.printStackTrace();
+        return new ArrayList<>();
     }
+}
 
     /**
      * Tìm kiếm booking
