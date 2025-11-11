@@ -4,6 +4,7 @@
  */
 package GUI;
 
+import java.awt.event.KeyEvent;
 import models.Booking;
 import models.Tour;
 import models.Customer;
@@ -60,7 +61,6 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         jLabel10 = new javax.swing.JLabel();
         jLabel11 = new javax.swing.JLabel();
@@ -70,22 +70,24 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         txtSoNguoiLon = new javax.swing.JTextField();
         txtSoTreEm = new javax.swing.JTextField();
         txtTongTien = new javax.swing.JTextField();
-        cboTrangThai = new javax.swing.JComboBox<>();
         btnThem = new javax.swing.JButton();
         btnSua = new javax.swing.JButton();
         btnXoa = new javax.swing.JButton();
+        panelStatus = new javax.swing.JPanel();
+        cboTrangThai = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
 
         jLabel2.setText("Tìm kiếm: ");
 
         tblDanhSachBooking.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "Mã Tour", "Tên Tuor", "Thời gian", "Địa điểm", "Mã Xe", "Mã Khách sạn", "Title 7", "Title 8", "Title 9"
+                "Mã Tour", "Tên khách hàng", "Tên Tuor", "Số người lớn", "Số trẻ em", "Tổng tiền", "Ngày đặt", "Trạng thái"
             }
         ));
         jScrollPane1.setViewportView(tblDanhSachBooking);
@@ -103,8 +105,6 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
 
         jLabel6.setText("Tour");
 
-        jLabel8.setText("Trạng thái");
-
         jLabel9.setText("Số người lớn");
 
         jLabel10.setText("Số trẻ em");
@@ -115,7 +115,19 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
 
         cboTour.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        txtSoNguoiLon.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSoNguoiLonKeyPressed(evt);
+            }
+        });
+
+        txtSoTreEm.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                txtSoTreEmKeyPressed(evt);
+            }
+        });
+
+        txtTongTien.setEnabled(false);
 
         btnThem.setText("Đặt tour");
         btnThem.addActionListener(new java.awt.event.ActionListener() {
@@ -138,6 +150,31 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
             }
         });
 
+        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "PENDING", "CONFIRMED", "CANCELLED", "COMPLETED" }));
+
+        jLabel8.setText("Trạng thái");
+
+        javax.swing.GroupLayout panelStatusLayout = new javax.swing.GroupLayout(panelStatus);
+        panelStatus.setLayout(panelStatusLayout);
+        panelStatusLayout.setHorizontalGroup(
+            panelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelStatusLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(8, Short.MAX_VALUE))
+        );
+        panelStatusLayout.setVerticalGroup(
+            panelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelStatusLayout.createSequentialGroup()
+                .addContainerGap(9, Short.MAX_VALUE)
+                .addGroup(panelStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8))
+                .addContainerGap())
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -148,44 +185,43 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                         .addGap(53, 53, 53)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 594, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(138, 138, 138)
-                        .addComponent(jLabel2)
-                        .addGap(18, 18, 18)
-                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnTimKiem))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(72, 72, 72)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jLabel5)
                             .addComponent(jLabel4)
                             .addComponent(jLabel6))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(cboTour, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(cboKhachHang, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtMaBooking, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(119, 119, 119)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(238, 238, 238)
-                                .addComponent(jLabel8))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(cboTour, 0, 93, Short.MAX_VALUE)
-                                    .addComponent(cboKhachHang, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(txtMaBooking, javax.swing.GroupLayout.Alignment.TRAILING))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel10, javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))))
+                                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtSoNguoiLon, javax.swing.GroupLayout.DEFAULT_SIZE, 99, Short.MAX_VALUE)
+                                    .addComponent(txtSoTreEm)
+                                    .addComponent(txtTongTien))
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnThem)
+                                    .addComponent(btnSua)
+                                    .addComponent(btnXoa)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(panelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(138, 138, 138)
+                        .addComponent(jLabel2)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtSoNguoiLon)
-                            .addComponent(txtSoTreEm)
-                            .addComponent(txtTongTien)
-                            .addComponent(cboTrangThai, 0, 99, Short.MAX_VALUE))
-                        .addGap(38, 38, 38)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnThem)
-                            .addComponent(btnSua)
-                            .addComponent(btnXoa))))
+                        .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnTimKiem)))
                 .addContainerGap(73, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -227,12 +263,10 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                                     .addComponent(txtTongTien, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(29, 29, 29)
-                                .addComponent(btnXoa)))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel8)
-                            .addComponent(cboTrangThai, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                                .addComponent(btnXoa)))))
+                .addGap(18, 18, 18)
+                .addComponent(panelStatus, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 16, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtTimKiem, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -246,22 +280,66 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
     private void btnThemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnThemActionPerformed
         // TODO add your handling code here:
         themBooking();
+        lamMoiForm();
     }//GEN-LAST:event_btnThemActionPerformed
 
     private void btnSuaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSuaActionPerformed
         // TODO add your handling code here:
         suaBooking();
+        lamMoiForm();
     }//GEN-LAST:event_btnSuaActionPerformed
 
     private void btnXoaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXoaActionPerformed
         // TODO add your handling code here:
         xoaBooking();
+        lamMoiForm();
     }//GEN-LAST:event_btnXoaActionPerformed
 
     private void btnTimKiemActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTimKiemActionPerformed
         // TODO add your handling code here:
         timKiemBooking();
+        lamMoiForm();
     }//GEN-LAST:event_btnTimKiemActionPerformed
+
+    private void txtSoNguoiLonKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoNguoiLonKeyPressed
+        // TODO add your handling code here:
+        int keyCode = evt.getKeyCode();
+        // Cho phép: Backspace, Delete, Arrow keys, Home, End
+        if (keyCode == KeyEvent.VK_BACK_SPACE || 
+            keyCode == KeyEvent.VK_DELETE ||
+            keyCode == KeyEvent.VK_LEFT ||
+            keyCode == KeyEvent.VK_RIGHT ||
+            keyCode == KeyEvent.VK_HOME ||
+            keyCode == KeyEvent.VK_END) {
+            return; // Cho phép
+        }
+        
+        // Chặn các phím khác không phải số
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSoNguoiLonKeyPressed
+
+    private void txtSoTreEmKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtSoTreEmKeyPressed
+        // TODO add your handling code here:
+        int keyCode = evt.getKeyCode();
+        // Cho phép: Backspace, Delete, Arrow keys, Home, End
+        if (keyCode == KeyEvent.VK_BACK_SPACE || 
+            keyCode == KeyEvent.VK_DELETE ||
+            keyCode == KeyEvent.VK_LEFT ||
+            keyCode == KeyEvent.VK_RIGHT ||
+            keyCode == KeyEvent.VK_HOME ||
+            keyCode == KeyEvent.VK_END) {
+            return; // Cho phép
+        }
+        
+        // Chặn các phím khác không phải số
+        char c = evt.getKeyChar();
+        if (!Character.isDigit(c)) {
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtSoTreEmKeyPressed
 
     private void btnLamMoiActionPerformed(java.awt.event.ActionEvent evt) {
         lamMoiForm();
@@ -307,6 +385,7 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
         public void changedUpdate(DocumentEvent e) {
             tinhTien();
         }
+        
     });
     
     txtSoTreEm.getDocument().addDocumentListener(new DocumentListener() {
@@ -332,7 +411,7 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
 
     private void setupCustomerMode(String username) {
         // Lấy thông tin customer hiện tại
-        currentCustomer = customerService.findCustomerByPhone(username);
+        currentCustomer = customerService.findCustomerByUsername(username);
 
         if (currentCustomer == null) {
             // Tạo customer mới nếu chưa có
@@ -360,6 +439,13 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
             // ✅ CHỈ HIỂN THỊ KHÁCH HÀNG HIỆN TẠI
             cboKhachHang.addItem(currentCustomer.getCustomerId() + " - " + currentCustomer.getFullName());
             cboKhachHang.setSelectedIndex(0);
+            panelStatus.enable(false);
+            if (cboTrangThai != null && jLabel8 != null) {
+        cboTrangThai.setVisible(false);
+        jLabel8.setVisible(false);
+        btnXoa.setVisible(false);
+        btnSua.setVisible(false);
+    }
         } else {
             // ✅ ADMIN: HIỂN THỊ TẤT CẢ
             cboKhachHang.addItem("-- Chọn khách hàng --");
@@ -597,10 +683,6 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
             JOptionPane.showMessageDialog(this, "Vui lòng chọn khách hàng!");
             return false;
         }
-        if (cboTour.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn tour!");
-            return false;
-        }
         if (txtSoNguoiLon.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "Vui lòng nhập số người lớn!");
             return false;
@@ -613,20 +695,14 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
     }
 
     private void tinhTien() {
-        if (cboTour.getSelectedIndex() == 0) {
-            JOptionPane.showMessageDialog(this, "Vui lòng chọn tour!");
-            return;
-        }
+
 
         try {
             String luaChonTour = cboTour.getSelectedItem().toString();
             String maTour = luaChonTour.split(" - ")[0];
 
             Tour tour = tourService.findTourById(maTour);
-            if (tour == null) {
-                JOptionPane.showMessageDialog(this, "Không tìm thấy tour!", "Lỗi", JOptionPane.ERROR_MESSAGE);
-                return;
-            }
+
 
             int soNguoiLon = Integer.parseInt(txtSoNguoiLon.getText().trim());
             int soTreEm = Integer.parseInt(txtSoTreEm.getText().trim());
@@ -635,10 +711,8 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
 
             txtTongTien.setText(String.format("%,.0f", tongTien));
 
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Số người phải là số!", "Lỗi", JOptionPane.ERROR_MESSAGE);
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Lỗi: " + e.getMessage(), "Lỗi", JOptionPane.ERROR_MESSAGE);
+            
         }
     }
 
@@ -675,7 +749,7 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
                     cboTrangThai.setSelectedItem(booking.getStatus());
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+                
             }
         }
     }
@@ -759,6 +833,7 @@ public class JPanel_Dattourkh extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel panelStatus;
     private javax.swing.JTable tblDanhSachBooking;
     private javax.swing.JTextField txtMaBooking;
     private javax.swing.JTextField txtSoNguoiLon;

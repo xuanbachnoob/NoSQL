@@ -176,11 +176,10 @@
         <Component class="javax.swing.JTable" name="tblDanhSachXe">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-              <Table columnCount="6" rowCount="4">
+              <Table columnCount="5" rowCount="4">
                 <Column editable="true" title="M&#xe3; xe" type="java.lang.Object"/>
                 <Column editable="true" title="Bi&#x1ec3;n s&#x1ed1;" type="java.lang.Object"/>
                 <Column editable="true" title="Lo&#x1ea1;i xe" type="java.lang.Object"/>
-                <Column editable="true" title="H&#xe3;ng xe" type="java.lang.Object"/>
                 <Column editable="true" title="S&#x1ee9;c ch&#x1ee9;a" type="java.lang.Object"/>
                 <Column editable="true" title="Tr&#x1ea1;ng Th&#xe1;i" type="java.lang.Object"/>
               </Table>
@@ -226,11 +225,8 @@
     <Component class="javax.swing.JComboBox" name="cboTrangThai">
       <Properties>
         <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
-          <StringArray count="4">
-            <StringItem index="0" value="Item 1"/>
-            <StringItem index="1" value="Item 2"/>
-            <StringItem index="2" value="Item 3"/>
-            <StringItem index="3" value="Item 4"/>
+          <StringArray count="1">
+            <StringItem index="0" value="AVAILABLE"/>
           </StringArray>
         </Property>
       </Properties>

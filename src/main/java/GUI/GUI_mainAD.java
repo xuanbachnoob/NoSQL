@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package GUI;
-
+import services.SessionManager;
+import javax.swing.JOptionPane;
 import java.awt.CardLayout;
 import javax.swing.JPanel;
 /**
@@ -66,6 +67,11 @@ public class GUI_mainAD extends javax.swing.JFrame {
         jLabel1.setText("QUẢN LÝ TOUR DU LỊCH");
 
         jButton1.setText("Đăng xuất");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         btnQLKS.setText("Quản lý khách sạn");
         btnQLKS.addActionListener(new java.awt.event.ActionListener() {
@@ -151,6 +157,8 @@ public class GUI_mainAD extends javax.swing.JFrame {
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
+        pnlMain.setBorder(new javax.swing.border.MatteBorder(null));
+
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
@@ -196,7 +204,7 @@ public class GUI_mainAD extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(24, Short.MAX_VALUE))
+                .addContainerGap(22, Short.MAX_VALUE))
         );
 
         pack();
@@ -237,6 +245,37 @@ public class GUI_mainAD extends javax.swing.JFrame {
                 cardLayout.show(pnlMain, "DatTour");
 
     }//GEN-LAST:event_btnDattourActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        int choice = JOptionPane.showConfirmDialog(this, 
+        "Bạn có chắc muốn đăng xuất?", 
+        "Xác nhận đăng xuất", 
+        JOptionPane.YES_NO_OPTION,
+        JOptionPane.QUESTION_MESSAGE);
+    
+    if (choice == JOptionPane.YES_OPTION) {
+        // Lưu thông tin user trước khi logout
+        String username = SessionManager.getInstance().getCurrentUsername();
+        
+        // Logout
+        SessionManager.getInstance().logout();
+        
+        // Thông báo
+        JOptionPane.showMessageDialog(this, 
+            "Đã đăng xuất thành công!\nTạm biệt " + username + "!", 
+            "Đăng xuất", 
+            JOptionPane.INFORMATION_MESSAGE);
+        
+        // Đóng GUI hiện tại
+        this.dispose();
+        
+        // Mở lại GUI Login
+        java.awt.EventQueue.invokeLater(() -> {
+            new GUI_Login().setVisible(true);
+        });
+    }
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

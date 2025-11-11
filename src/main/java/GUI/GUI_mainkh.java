@@ -6,6 +6,8 @@ package GUI;
 
 import java.awt.CardLayout;
 import javax.swing.JPanel;
+import services.SessionManager;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -15,25 +17,25 @@ public class GUI_mainkh extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(GUI_mainkh.class.getName());
     private CardLayout cardLayout;
+
     /**
      * Creates new form GUI_mainkh
      */
     public GUI_mainkh() {
         initComponents();
- cardLayout = new CardLayout();
+        cardLayout = new CardLayout();
         pnlMain.setLayout(cardLayout);
-        
+
         // Xóa component cũ
         pnlMain.removeAll();
-        
+
         // Thêm các panel
-        pnlMain.add(new JPanel_Tourdadat(), "Tourdadat");
+        pnlMain.add(new JPanel_xemtour(), "Tourdadat");
         pnlMain.add(new JPanel_Dattourkh(), "DatTour");
-        
+
         // Hiển thị panel đầu tiên
         cardLayout.show(pnlMain, "DatTour");
     }
-
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -44,7 +46,7 @@ public class GUI_mainkh extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        btnDangxuat = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         btnBookingtour = new javax.swing.JButton();
@@ -53,7 +55,12 @@ public class GUI_mainkh extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("jButton1");
+        btnDangxuat.setText("Đăng xuất");
+        btnDangxuat.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDangxuatActionPerformed(evt);
+            }
+        });
 
         jLabel1.setText("Công ty du lịch NVB");
 
@@ -64,7 +71,7 @@ public class GUI_mainkh extends javax.swing.JFrame {
             }
         });
 
-        btnTour.setText("Tour đã đặt");
+        btnTour.setText("Xem Tour");
         btnTour.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnTourActionPerformed(evt);
@@ -91,33 +98,38 @@ public class GUI_mainkh extends javax.swing.JFrame {
                     .addComponent(btnTour)))
         );
 
+        pnlMain.setBorder(new javax.swing.border.MatteBorder(null));
+
         javax.swing.GroupLayout pnlMainLayout = new javax.swing.GroupLayout(pnlMain);
         pnlMain.setLayout(pnlMainLayout);
         pnlMainLayout.setHorizontalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 686, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         pnlMainLayout.setVerticalGroup(
             pnlMainLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 367, Short.MAX_VALUE)
+            .addGap(0, 400, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(222, 222, 222)
-                .addComponent(jButton1)
-                .addGap(18, 18, 18))
             .addGroup(layout.createSequentialGroup()
                 .addGap(41, 41, 41)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(14, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(pnlMain, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 407, Short.MAX_VALUE)
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(222, 222, 222)
+                                .addComponent(btnDangxuat)))
+                        .addGap(18, 18, 18))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(170, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -125,7 +137,7 @@ public class GUI_mainkh extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(29, 29, 29)
-                        .addComponent(jButton1))
+                        .addComponent(btnDangxuat))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -133,7 +145,7 @@ public class GUI_mainkh extends javax.swing.JFrame {
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(pnlMain, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
         pack();
@@ -150,14 +162,45 @@ public class GUI_mainkh extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnBookingtourActionPerformed
 
+    private void btnDangxuatActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangxuatActionPerformed
+        // TODO add your handling code here:
+        int choice = JOptionPane.showConfirmDialog(this,
+                "Bạn có chắc muốn đăng xuất?",
+                "Xác nhận đăng xuất",
+                JOptionPane.YES_NO_OPTION,
+                JOptionPane.QUESTION_MESSAGE);
+
+        if (choice == JOptionPane.YES_OPTION) {
+            // Lưu thông tin user
+            String username = SessionManager.getInstance().getCurrentUsername();
+
+            // Logout
+            SessionManager.getInstance().logout();
+
+            // Thông báo
+            JOptionPane.showMessageDialog(this,
+                    "Đã đăng xuất thành công!\nHẹn gặp lại " + username + "!",
+                    "Đăng xuất",
+                    JOptionPane.INFORMATION_MESSAGE);
+
+            // Đóng GUI hiện tại
+            this.dispose();
+
+            // Mở lại GUI Login
+            java.awt.EventQueue.invokeLater(() -> {
+                new GUI_Login().setVisible(true);
+            });
+        }
+    }//GEN-LAST:event_btnDangxuatActionPerformed
+
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBookingtour;
+    private javax.swing.JButton btnDangxuat;
     private javax.swing.JButton btnTour;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel pnlMain;

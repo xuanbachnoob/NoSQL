@@ -85,13 +85,13 @@ public class JPanel_qlxe extends javax.swing.JPanel {
 
         tblDanhSachXe.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null},
+                {null, null, null, null, null}
             },
             new String [] {
-                "Mã xe", "Biển số", "Loại xe", "Hãng xe", "Sức chứa", "Trạng Thái"
+                "Mã xe", "Biển số", "Loại xe", "Sức chứa", "Trạng Thái"
             }
         ));
         jScrollPane1.setViewportView(tblDanhSachXe);
@@ -108,7 +108,7 @@ public class JPanel_qlxe extends javax.swing.JPanel {
 
         jLabel5.setText("Trạng thái");
 
-        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        cboTrangThai.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "AVAILABLE" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -375,8 +375,8 @@ public class JPanel_qlxe extends javax.swing.JPanel {
             txtMaXe.setText(model.getValueAt(dongDuocChon, 0).toString());
             txtBienSo.setText(model.getValueAt(dongDuocChon, 1).toString());
             txtLoaiXe.setText(model.getValueAt(dongDuocChon, 2).toString());
-            txtSucChua.setText(model.getValueAt(dongDuocChon, 4).toString());
-            cboTrangThai.setSelectedItem(model.getValueAt(dongDuocChon, 5).toString());
+            txtSucChua.setText(model.getValueAt(dongDuocChon, 3).toString());
+            cboTrangThai.setSelectedItem(model.getValueAt(dongDuocChon, 4).toString());
         }
     }
 

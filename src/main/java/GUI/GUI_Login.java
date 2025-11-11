@@ -48,7 +48,7 @@ public class GUI_Login extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jLabel1.setText("jLabel1");
+        jLabel1.setText("ĐĂNG NHẬP");
 
         jLabel2.setText("Tài khoản");
 
@@ -61,7 +61,7 @@ public class GUI_Login extends javax.swing.JFrame {
             }
         });
 
-        cboRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Employee", "Admin" }));
+        cboRole.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "CUSTOMER", "EMPLOYEE", "ADMIN" }));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -69,9 +69,6 @@ public class GUI_Login extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(169, 169, 169)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(59, 59, 59)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -83,7 +80,10 @@ public class GUI_Login extends javax.swing.JFrame {
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(cboRole, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addComponent(txtUsername, javax.swing.GroupLayout.DEFAULT_SIZE, 148, Short.MAX_VALUE)
-                                .addComponent(txtPassword)))))
+                                .addComponent(txtPassword))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(169, 169, 169)
+                        .addComponent(jLabel1)))
                 .addContainerGap(138, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -155,14 +155,14 @@ private void handleLogin() {
         btnLogin.setEnabled(false);
         btnLogin.setText("Đang đăng nhập...");
 
-        // ✅ ĐỔI: Account → Customer
+
         SwingWorker<Customer, Void> worker = new SwingWorker<Customer, Void>() {
             @Override
             protected Customer doInBackground() throws Exception {
-                // ✅ ĐỔI: accountService → customerService
+
                 Customer customer = customerService.login(username, password);
                 
-                // ✅ Check role nếu chọn role cụ thể
+
                 if (customer != null && !"Tất cả".equals(selectedRole)) {
                     if (!selectedRole.equalsIgnoreCase(customer.getAccountType())) {
                         return null; // Role không khớp
