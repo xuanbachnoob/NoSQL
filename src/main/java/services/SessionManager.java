@@ -1,11 +1,14 @@
 package services;
 
-import models.Account;
+import models.Customer;
 
+/**
+ * Quản lý session người dùng đăng nhập
+ */
 public class SessionManager {
     
     private static SessionManager instance;
-    private Account currentAccount;
+    private Customer currentCustomer;
     
     private SessionManager() {}
     
@@ -16,38 +19,59 @@ public class SessionManager {
         return instance;
     }
     
-    public void setCurrentAccount(Account account) {
-        this.currentAccount = account;
+    // ✅ Lưu customer đăng nhập
+    public void setCurrentCustomer(Customer customer) {
+        this.currentCustomer = customer;
     }
     
-    public Account getCurrentAccount() {
-        return currentAccount;
+    public Customer getCurrentCustomer() {
+        return currentCustomer;
     }
     
-    public boolean isLoggedIn() {
-        return currentAccount != null;
-    }
-    
+    // ✅ Helper methods
     public String getCurrentUsername() {
-        return currentAccount != null ? currentAccount.getUsername() : null;
+        return currentCustomer != null ? currentCustomer.getUsername() : null;
+    }
+    
+    public String getCurrentCustomerId() {
+        return currentCustomer != null ? currentCustomer.getCustomerId() : null;
     }
     
     public String getCurrentRole() {
-        return currentAccount != null ? currentAccount.getRole() : null;
+        return currentCustomer != null ? currentCustomer.getAccountType() : null;
+    }
+    
+    public boolean isLoggedIn() {
+        return currentCustomer != null;
     }
     
     public boolean isAdmin() {
-        return currentAccount != null && "Admin".equals(currentAccount.getRole());
+        return currentCustomer != null && currentCustomer.isAdmin();
     }
     
     public boolean isEmployee() {
-        return currentAccount != null && "Employee".equals(currentAccount.getRole());
+        return currentCustomer != null && currentCustomer.isEmployee();
+    }
+    
+    public boolean isCustomer() {
+        return currentCustomer != null && currentCustomer.isCustomer();
     }
     
     public void logout() {
-        if (currentAccount != null) {
-            System.out.println("👋 " + currentAccount.getUsername() + " đã đăng xuất");
+        if (currentCustomer != null) {
+            System.out.println("👋 " + currentCustomer.getUsername() + " đã đăng xuất");
         }
-        currentAccount = null;
+        currentCustomer = null;
+    }
+    
+    @Override
+    public String toString() {
+        if (currentCustomer == null) {
+            return "SessionManager{NOT LOGGED IN}";
+        }
+        return "SessionManager{" +
+                "username='" + currentCustomer.getUsername() + '\'' +
+                ", role='" + currentCustomer.getAccountType() + '\'' +
+                '}';
     }
 }

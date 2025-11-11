@@ -15,7 +15,6 @@ public class DataSeeder {
     private VehicleService vehicleService;
     private HotelService hotelService;
     private EmployeeService employeeService;
-    private AccountService accountService;
     private BookingService bookingService;
     private RelationshipService relationshipService;
 
@@ -25,7 +24,6 @@ public class DataSeeder {
         this.vehicleService = new VehicleService();
         this.hotelService = new HotelService();
         this.employeeService = new EmployeeService();
-        this.accountService = new AccountService();
         this.bookingService = new BookingService();
         this.relationshipService = new RelationshipService();
     }
@@ -37,13 +35,12 @@ public class DataSeeder {
         System.out.println("\n╔═══════════════════════════════════════════════╗");
         System.out.println("║   🌱 BẮT ĐẦU SEED DỮ LIỆU MẪU...            ║");
         System.out.println("╚═══════════════════════════════════════════════╝\n");
-
-        seedAccounts();
+        seedCustomers();
         seedEmployees();
         seedVehicles();
         seedHotels();
         seedTours();
-        seedCustomers();
+        
         seedBookings();
 
         System.out.println("\n╔═══════════════════════════════════════════════╗");
@@ -54,20 +51,7 @@ public class DataSeeder {
     /**
      * Seed Accounts (Admin)
      */
-private void seedAccounts() {
-    System.out.println("📌 Đang seed Accounts...");
 
-    AccountService accountService = new AccountService();
-
-    // ✅ Dùng addAccount()
-    Account admin = new Account("admin", "admin123", "Admin");
-    accountService.addAccount(admin);
-
-    Account emp = new Account("emp001", "emp123", "Employee");
-    accountService.addAccount(emp);
-
-    System.out.println("✅ Đã seed 2 accounts\n");
-}
 
     /**
      * Seed Employees
@@ -332,84 +316,120 @@ private void seedAccounts() {
     /**
      * Seed Customers
      */
-    private void seedCustomers() {
-        System.out.println("📌 Đang seed Customers...");
+    /**
+ * Seed Customers (bao gồm Admin, Employee, Customer, Guest)
+ */
+private void seedCustomers() {
+    System.out.println("📌 Đang seed Customers...");
 
-        Calendar cal = Calendar.getInstance();
+    Calendar cal = Calendar.getInstance();
 
-        cal.set(1990, Calendar.MAY, 15);
-        Customer c1 = new Customer();
-        c1.setCustomerId("CUS001");
-        c1.setFullName("Nguyễn Văn An");
-        c1.setPhone("0901234567");
-        c1.setEmail("nguyenvanan@gmail.com");
-        c1.setAddress("123 Lê Lợi, Q1, TP.HCM");
-        c1.setDateOfBirth(cal.getTime());
-        c1.setIdCard("079090123456");
-        c1.setGender("MALE");
-        c1.setAccountType("REGISTERED");
-        c1.setUsername("nguyenvanan");
-        c1.setPassword("123456");
-        customerService.addCustomer(c1);
+    // ✅ 1. ADMIN
+    cal.set(1985, Calendar.JANUARY, 1);
+    Customer admin = new Customer();
+    admin.setCustomerId("CUS001");
+    admin.setUsername("admin");
+    admin.setPassword("admin123");
+    admin.setFullName("Quản Trị Viên");
+    admin.setPhone("0900000001");
+    admin.setEmail("admin@company.com");
+    admin.setAddress("Trụ sở chính, TP.HCM");
+    admin.setDateOfBirth(cal.getTime());
+    admin.setIdCard("079085000001");
+    admin.setGender("MALE");
+    admin.setAccountType("ADMIN");
+    customerService.addCustomer(admin);
 
-        cal.set(1992, Calendar.AUGUST, 20);
-        Customer c2 = new Customer();
-        c2.setCustomerId("CUS002");
-        c2.setFullName("Trần Thị Bình");
-        c2.setPhone("0912345678");
-        c2.setEmail("tranthibinh@gmail.com");
-        c2.setAddress("456 Nguyễn Huệ, Q1, TP.HCM");
-        c2.setDateOfBirth(cal.getTime());
-        c2.setIdCard("079092987654");
-        c2.setGender("FEMALE");
-        c2.setAccountType("REGISTERED");
-        c2.setUsername("tranthibinh");
-        c2.setPassword("123456");
-        customerService.addCustomer(c2);
+    // ✅ 2. EMPLOYEE 1
+    cal.set(1990, Calendar.MARCH, 15);
+    Customer emp1 = new Customer();
+    emp1.setCustomerId("CUS002");
+    emp1.setUsername("nvhoa");
+    emp1.setPassword("123456");
+    emp1.setFullName("Nguyễn Thị Hoa");
+    emp1.setPhone("0901234567");
+    emp1.setEmail("nvhoa@company.com");
+    emp1.setAddress("123 Lê Lợi, Q1, TP.HCM");
+    emp1.setDateOfBirth(cal.getTime());
+    emp1.setIdCard("079090000001");
+    emp1.setGender("FEMALE");
+    emp1.setAccountType("EMPLOYEE");
+    emp1.setPosition("Sales Staff");
+    emp1.setDepartment("Sales");
+    customerService.addCustomer(emp1);
 
-        cal.set(1988, Calendar.MARCH, 10);
-        Customer c3 = new Customer();
-        c3.setCustomerId("CUS003");
-        c3.setFullName("Lê Văn Cường");
-        c3.setPhone("0923456789");
-        c3.setEmail("levancuong@gmail.com");
-        c3.setAddress("789 Hai Bà Trưng, Q3, TP.HCM");
-        c3.setDateOfBirth(cal.getTime());
-        c3.setIdCard("079088111222");
-        c3.setGender("MALE");
-        c3.setAccountType("GUEST");
-        customerService.addCustomer(c3);
+    // ✅ 3. EMPLOYEE 2
+    cal.set(1988, Calendar.JULY, 20);
+    Customer emp2 = new Customer();
+    emp2.setCustomerId("CUS003");
+    emp2.setUsername("tvnam");
+    emp2.setPassword("123456");
+    emp2.setFullName("Trần Văn Nam");
+    emp2.setPhone("0912345678");
+    emp2.setEmail("tvnam@company.com");
+    emp2.setAddress("456 Nguyễn Huệ, Q1, TP.HCM");
+    emp2.setDateOfBirth(cal.getTime());
+    emp2.setIdCard("079088000002");
+    emp2.setGender("MALE");
+    emp2.setAccountType("EMPLOYEE");
+    emp2.setPosition("Tour Guide");
+    emp2.setDepartment("Operations");
+    customerService.addCustomer(emp2);
 
-        cal.set(1995, Calendar.JULY, 25);
-        Customer c4 = new Customer();
-        c4.setCustomerId("CUS004");
-        c4.setFullName("Phạm Thị Dung");
-        c4.setPhone("0934567890");
-        c4.setEmail("phamthidung@gmail.com");
-        c4.setAddress("321 Võ Văn Tần, Q3, TP.HCM");
-        c4.setDateOfBirth(cal.getTime());
-        c4.setIdCard("079095333444");
-        c4.setGender("FEMALE");
-        c4.setAccountType("REGISTERED");
-        c4.setUsername("phamthidung");
-        c4.setPassword("123456");
-        customerService.addCustomer(c4);
+    // ✅ 4. CUSTOMER 1
+    cal.set(1990, Calendar.MAY, 15);
+    Customer c1 = new Customer();
+    c1.setCustomerId("CUS004");
+    c1.setUsername("nguyenvanan");
+    c1.setPassword("123456");
+    c1.setFullName("Nguyễn Văn An");
+    c1.setPhone("0923456789");
+    c1.setEmail("nguyenvanan@gmail.com");
+    c1.setAddress("789 Lê Văn Việt, Q9, TP.HCM");
+    c1.setDateOfBirth(cal.getTime());
+    c1.setIdCard("079090123456");
+    c1.setGender("MALE");
+    c1.setAccountType("CUSTOMER");
+    customerService.addCustomer(c1);
 
-        cal.set(1993, Calendar.NOVEMBER, 5);
-        Customer c5 = new Customer();
-        c5.setCustomerId("CUS005");
-        c5.setFullName("Hoàng Văn Em");
-        c5.setPhone("0945678901");
-        c5.setEmail("hoangvanem@gmail.com");
-        c5.setAddress("654 Pasteur, Q1, TP.HCM");
-        c5.setDateOfBirth(cal.getTime());
-        c5.setIdCard("079093555666");
-        c5.setGender("MALE");
-        c5.setAccountType("GUEST");
-        customerService.addCustomer(c5);
+    // ✅ 5. CUSTOMER 2
+    cal.set(1992, Calendar.AUGUST, 20);
+    Customer c2 = new Customer();
+    c2.setCustomerId("CUS005");
+    c2.setUsername("tranthibinh");
+    c2.setPassword("123456");
+    c2.setFullName("Trần Thị Bình");
+    c2.setPhone("0934567890");
+    c2.setEmail("tranthibinh@gmail.com");
+    c2.setAddress("321 Điện Biên Phủ, Q3, TP.HCM");
+    c2.setDateOfBirth(cal.getTime());
+    c2.setIdCard("079092987654");
+    c2.setGender("FEMALE");
+    c2.setAccountType("CUSTOMER");
+    customerService.addCustomer(c2);
 
-        System.out.println("✅ Đã seed 5 customers\n");
-    }
+    // ✅ 6. GUEST (không có account)
+    cal.set(1988, Calendar.MARCH, 10);
+    Customer guest = new Customer();
+    guest.setCustomerId("CUS006");
+    guest.setUsername(null);
+    guest.setPassword(null);
+    guest.setFullName("Lê Văn Cường");
+    guest.setPhone("0945678901");
+    guest.setEmail("levancuong@gmail.com");
+    guest.setAddress("654 Pasteur, Q1, TP.HCM");
+    guest.setDateOfBirth(cal.getTime());
+    guest.setIdCard("079088111222");
+    guest.setGender("MALE");
+    guest.setAccountType("GUEST");
+    customerService.addCustomer(guest);
+
+    System.out.println("✅ Đã seed 6 customers");
+    System.out.println("   - 1 Admin");
+    System.out.println("   - 2 Employees");
+    System.out.println("   - 2 Customers");
+    System.out.println("   - 1 Guest\n");
+}
 
     /**
      * Seed Bookings

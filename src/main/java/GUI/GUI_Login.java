@@ -4,8 +4,8 @@
  */
 package GUI;
 
-import models.Account;
-import services.AccountService;
+import models.Customer;
+import services.CustomerService;
 import services.SessionManager;
 
 import javax.swing.*;
@@ -18,13 +18,13 @@ import java.awt.event.*;
  */
 public class GUI_Login extends javax.swing.JFrame {
 
-    private AccountService accountService;
+    private CustomerService customerService;
 
     /**
      * Creates new form GUI_Login
      */
     public GUI_Login() {
-        this.accountService = new AccountService();
+        this.customerService = new CustomerService();
         initComponents();
         setupUI();
     }
@@ -133,10 +133,10 @@ public class GUI_Login extends javax.swing.JFrame {
         txtPassword.setToolTipText("Nhập mật khẩu của bạn");
     }
 
-    private void handleLogin() {
+private void handleLogin() {
         String username = txtUsername.getText().trim();
         String password = new String(txtPassword.getPassword());
-        String role = cboRole.getSelectedItem().toString();
+        String selectedRole = cboRole.getSelectedItem().toString();
 
         // Validation
         if (username.isEmpty()) {
@@ -155,25 +155,32 @@ public class GUI_Login extends javax.swing.JFrame {
         btnLogin.setEnabled(false);
         btnLogin.setText("Đang đăng nhập...");
 
-        // Kiểm tra đăng nhập
-        SwingWorker<Account, Void> worker = new SwingWorker<Account, Void>() {
+        // ✅ ĐỔI: Account → Customer
+        SwingWorker<Customer, Void> worker = new SwingWorker<Customer, Void>() {
             @Override
-            protected Account doInBackground() throws Exception {
-                Account account = accountService.login(username, password);
-                if (account != null && !role.equals(account.getRole())) {
-                    return null;
+            protected Customer doInBackground() throws Exception {
+                // ✅ ĐỔI: accountService → customerService
+                Customer customer = customerService.login(username, password);
+                
+                // ✅ Check role nếu chọn role cụ thể
+                if (customer != null && !"Tất cả".equals(selectedRole)) {
+                    if (!selectedRole.equalsIgnoreCase(customer.getAccountType())) {
+                        return null; // Role không khớp
+                    }
                 }
-                return account;
+                
+                return customer;
             }
 
             @Override
             protected void done() {
                 try {
-                    Account account = get();
+                    // ✅ ĐỔI: Account → Customer
+                    Customer customer = get();
 
-                    if (account != null) {
+                    if (customer != null) {
                         // Đăng nhập thành công
-                        onLoginSuccess(account);
+                        onLoginSuccess(customer);
                     } else {
                         // Đăng nhập thất bại
                         showError("Tên đăng nhập, mật khẩu hoặc vai trò không đúng!");
@@ -194,37 +201,48 @@ public class GUI_Login extends javax.swing.JFrame {
         worker.execute();
     }
 
-    private void onLoginSuccess(Account account) {
-    // Lưu session
-    SessionManager.getInstance().setCurrentAccount(account);
+    /**
+     * Xử lý khi đăng nhập thành công
+     */
+    private void onLoginSuccess(Customer customer) {
+        // ✅ ĐỔI: setCurrentAccount → setCurrentCustomer
+        SessionManager.getInstance().setCurrentCustomer(customer);
 
-    // Hiển thị thông báo
-    JOptionPane.showMessageDialog(this,
-            "Đăng nhập thành công!\n\n"
-            + "Xin chào: " + account.getUsername() + "\n"
-            + "Vai trò: " + account.getRole(),
-            "Thành công",
-            JOptionPane.INFORMATION_MESSAGE
-    );
+        // Hiển thị thông báo
+        JOptionPane.showMessageDialog(this,
+                "Đăng nhập thành công!\n\n"
+                + "Xin chào: " + customer.getFullName() + "\n"
+                + "Vai trò: " + customer.getAccountType(),
+                "Thành công",
+                JOptionPane.INFORMATION_MESSAGE
+        );
 
-    // ✅ ĐÚNG: DÙNG .equals() hoặc .equalsIgnoreCase()
-    if ("Admin".equals(account.getRole())) {
-        // Mở GUI Admin
+        // ✅ ĐỔI: Dùng helper methods
         SwingUtilities.invokeLater(() -> {
-            GUI_mainAD mainAD = new GUI_mainAD();
-            mainAD.setVisible(true);
-            this.dispose();
-        });
-    } else {
-        // Mở GUI Employee/Khách hàng
-        SwingUtilities.invokeLater(() -> {
-            GUI_mainkh mainGUI = new GUI_mainkh();
-            mainGUI.setVisible(true);
+            if (customer.isAdmin()) {
+                // Mở GUI Admin
+                GUI_mainAD mainAD = new GUI_mainAD();
+                mainAD.setVisible(true);
+            } else if (customer.isEmployee()) {
+                // Mở GUI Employee (hoặc dùng chung GUI_mainkh)
+                GUI_mainkh mainGUI = new GUI_mainkh();
+                mainGUI.setVisible(true);
+            } else if (customer.isCustomer()) {
+                // Mở GUI Customer
+                GUI_mainkh mainGUI = new GUI_mainkh();
+                mainGUI.setVisible(true);
+            } else {
+                showError("Vai trò không xác định!");
+                return;
+            }
+            
             this.dispose();
         });
     }
-}
 
+    /**
+     * Hiển thị lỗi
+     */
     private void showError(String message) {
         JOptionPane.showMessageDialog(this,
                 message,

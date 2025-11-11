@@ -91,12 +91,19 @@ public Customer findCustomerById(String customerId) {
      */
     public Customer findCustomerByPhone(String phone) {
         try {
-            return hg.findOne(graph,
-                hg.and(
-                    hg.type(Customer.class),
-                    hg.eq("phone", phone)
-                )
-            );
+            HGHandle handle = hg.findOne(graph,
+            hg.and(
+                hg.type(Customer.class),
+                hg.eq("phone", phone)
+            )
+        );
+        
+        if (handle == null) {
+            return null;
+        }
+        
+        // ✅ DÙNG graph.get() ĐỂ LẤY OBJECT
+        return graph.get(handle);
         } catch (Exception e) {
             System.err.println("❌ Lỗi khi tìm khách hàng theo SĐT: " + e.getMessage());
             return null;
@@ -258,4 +265,176 @@ public Customer findCustomerById(String customerId) {
             return null;
         }
     }
+    
+    // ==================== LOGIN & AUTH ====================
+
+/**
+ * Đăng nhập
+ */
+public Customer login(String username, String password) {
+    try {
+        HGHandle handle = hg.findOne(graph, hg.and(
+            hg.type(Customer.class),
+            hg.eq("username", username)
+        ));
+        
+        if (handle == null) {
+            System.err.println("❌ Không tìm thấy username: " + username);
+            return null;
+        }
+        
+        Customer customer = graph.get(handle);
+        
+        if (customer == null) {
+            System.err.println("❌ Lỗi lấy dữ liệu customer");
+            return null;
+        }
+        
+        if (customer.getPassword() == null || !customer.getPassword().equals(password)) {
+            System.err.println("❌ Mật khẩu sai");
+            return null;
+        }
+        
+        System.out.println("✅ Đăng nhập thành công: " + username + " - Role: " + customer.getAccountType());
+        return customer;
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi đăng nhập: " + e.getMessage());
+        e.printStackTrace();
+        return null;
+    }
+}
+
+/**
+ * Tìm customer theo username
+ */
+public Customer findCustomerByUsername(String username) {
+    try {
+        HGHandle handle = hg.findOne(graph, hg.and(
+            hg.type(Customer.class),
+            hg.eq("username", username)
+        ));
+        
+        if (handle == null) {
+            return null;
+        }
+        
+        return graph.get(handle);
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi tìm customer theo username: " + e.getMessage());
+        e.printStackTrace();
+        return null;
+    }
+}
+
+/**
+ * Đăng ký tài khoản mới
+ */
+public HGHandle register(String username, String password, String fullName, String phone) {
+    try {
+        graph.getTransactionManager().beginTransaction();
+        
+        Customer existingUsername = findCustomerByUsername(username);
+        if (existingUsername != null) {
+            System.err.println("❌ Username đã tồn tại: " + username);
+            graph.getTransactionManager().abort();
+            return null;
+        }
+        
+        Customer existingPhone = findCustomerByPhone(phone);
+        if (existingPhone != null) {
+            System.err.println("❌ Số điện thoại đã được sử dụng: " + phone);
+            graph.getTransactionManager().abort();
+            return null;
+        }
+        
+        Customer customer = new Customer();
+        customer.setCustomerId("CUS" + System.currentTimeMillis());
+        customer.setUsername(username);
+        customer.setPassword(password);
+        customer.setFullName(fullName);
+        customer.setPhone(phone);
+        customer.setAccountType("CUSTOMER");
+        customer.setCreatedAt(new java.util.Date());
+        
+        HGHandle handle = dbManager.add(customer);
+        
+        graph.getTransactionManager().endTransaction(true);
+        System.out.println("✅ Đăng ký thành công: " + username);
+        
+        return handle;
+        
+    } catch (Exception e) {
+        graph.getTransactionManager().abort();
+        System.err.println("❌ Lỗi đăng ký: " + e.getMessage());
+        e.printStackTrace();
+        return null;
+    }
+}
+
+/**
+ * Đổi mật khẩu
+ */
+public boolean changePassword(String username, String oldPassword, String newPassword) {
+    try {
+        graph.getTransactionManager().beginTransaction();
+        
+        Customer customer = findCustomerByUsername(username);
+        
+        if (customer == null) {
+            System.err.println("❌ Không tìm thấy customer");
+            graph.getTransactionManager().abort();
+            return false;
+        }
+        
+        if (!oldPassword.equals(customer.getPassword())) {
+            System.err.println("❌ Mật khẩu cũ không đúng");
+            graph.getTransactionManager().abort();
+            return false;
+        }
+        
+        customer.setPassword(newPassword);
+        boolean result = updateCustomer(customer.getCustomerId(), customer);
+        
+        if (result) {
+            graph.getTransactionManager().endTransaction(true);
+        } else {
+            graph.getTransactionManager().abort();
+        }
+        
+        return result;
+        
+    } catch (Exception e) {
+        graph.getTransactionManager().abort();
+        System.err.println("❌ Lỗi đổi mật khẩu: " + e.getMessage());
+        e.printStackTrace();
+        return false;
+    }
+}
+
+/**
+ * Lấy customers theo accountType
+ */
+public List<Customer> getCustomersByAccountType(String accountType) {
+    List<Customer> result = new ArrayList<>();
+    
+    try {
+        List<Customer> allCustomers = getAllCustomers();
+        
+        for (Customer customer : allCustomers) {
+            if (accountType.equalsIgnoreCase(customer.getAccountType())) {
+                result.add(customer);
+            }
+        }
+        
+        System.out.println("📋 Tìm thấy " + result.size() + " customers với accountType: " + accountType);
+        
+    } catch (Exception e) {
+        System.err.println("❌ Lỗi lấy customers theo accountType: " + e.getMessage());
+        e.printStackTrace();
+    }
+    
+    return result;
+}
 }

@@ -20,6 +20,8 @@ public class Customer implements Serializable {
     private String idCard;          // CMND/CCCD
     private String gender;          // MALE/FEMALE
     private String accountType;     // REGISTERED/GUEST
+    private String position;
+    private String department;
     private Date createdAt;         // Ngày tạo
     
     // Constructors
@@ -100,4 +102,40 @@ public class Customer implements Serializable {
                 ", email='" + email + '\'' +
                 '}';
     }
+    public String getPosition() {
+    return position;
+}
+
+public void setPosition(String position) {
+    this.position = position;
+}
+
+public String getDepartment() {
+    return department;
+}
+
+public void setDepartment(String department) {
+    this.department = department;
+}
+
+// ✅ Helper methods
+public boolean isAdmin() {
+    return "ADMIN".equalsIgnoreCase(accountType);
+}
+
+public boolean isEmployee() {
+    return "EMPLOYEE".equalsIgnoreCase(accountType);
+}
+
+public boolean isCustomer() {
+    return "CUSTOMER".equalsIgnoreCase(accountType);
+}
+
+public boolean isGuest() {
+    return "GUEST".equalsIgnoreCase(accountType);
+}
+
+public boolean hasAccount() {
+    return username != null && !username.isEmpty();
+}
 }

@@ -12,7 +12,6 @@ E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\GUI\JPanel_qlve.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\GUI\JPanel_qlxe.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\GUI\JPanel_thongke.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\GUI\JPanel_Tourdadat.java
-E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\Account.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\Booking.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\BookingDetail.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\Customer.java
@@ -21,7 +20,6 @@ E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\Hotel.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\Ticket.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\Tour.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\models\Vehicle.java
-E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\services\AccountService.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\services\BookingService.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\services\CustomerService.java
 E:\TaiLieu-nam3\NoSql\QLTourDL\src\main\java\services\EmployeeService.java
